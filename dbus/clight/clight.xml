@@ -1,0 +1,72 @@
+<!DOCTYPE node PUBLIC "-//freedesktop//DTD D-BUS Object Introspection 1.0//EN"
+        "http://www.freedesktop.org/standards/dbus/1.0/introspect.dtd">
+<node>
+    <interface name="org.clight.clight">
+        <property name="Version" type="s" access="read">
+            <annotation name="org.freedesktop.DBus.Property.EmitsChangedSignal" value="const"/>
+        </property>
+        <property name="ClightdVersion" type="s" access="read">
+            <annotation name="org.freedesktop.DBus.Property.EmitsChangedSignal" value="const"/>
+        </property>
+        <property name="Sunrise" type="t" access="read">
+        </property>
+        <property name="Sunset" type="t" access="read">
+        </property>
+        <property name="NextEvent" type="i" access="read">
+        </property>
+        <property name="DayTime" type="i" access="read">
+        </property>
+        <property name="InEvent" type="b" access="read">
+        </property>
+        <property name="DisplayState" type="i" access="read">
+        </property>
+        <property name="AcState" type="i" access="read">
+        </property>
+        <property name="LidState" type="i" access="read">
+        </property>
+        <property name="Inhibited" type="b" access="read">
+        </property>
+        <property name="PmInhibited" type="b" access="read">
+        </property>
+        <property name="SensorAvail" type="b" access="read">
+        </property>
+        <property name="BlPct" type="d" access="read">
+        </property>
+        <property name="KbdPct" type="d" access="read">
+        </property>
+        <property name="AmbientBr" type="d" access="read">
+        </property>
+        <property name="Temp" type="i" access="read">
+        </property>
+        <property name="Location" type="(dd)" access="read">
+            <annotation name="org.qtproject.QtDBus.QtTypeName" value="Coordinate"/>
+        </property>
+        <property name="ScreenComp" type="d" access="read">
+        </property>
+        <property name="Suspended" type="b" access="read">
+        </property>
+        <method name="Capture">
+            <arg type="b" direction="in"/>
+            <arg type="b" direction="in"/>
+        </method>
+        <method name="Inhibit">
+            <arg type="b" direction="in"/>
+        </method>
+        <method name="IncBl">
+            <arg type="d" direction="in"/>
+        </method>
+        <method name="DecBl">
+            <arg type="d" direction="in"/>
+        </method>
+        <method name="Load">
+            <arg type="s" direction="in"/>
+        </method>
+        <method name="Unload">
+            <arg type="s" direction="in"/>
+        </method>
+        <method name="Pause">
+            <arg type="b" direction="in"/>
+        </method>
+    </interface>
+    <node name="Conf"/>
+</node>
