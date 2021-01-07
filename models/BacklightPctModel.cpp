@@ -14,8 +14,8 @@ int BacklightPctModel::columnCount(const QModelIndex &parent) const {
 }
 
 BacklightPctModel::BacklightPctModel(QObject *parent) : QAbstractTableModel(parent), dat() {
-    iface = new org::clightd::clightd::Backlight("org.clightd.clightd", "/org/clightd/clightd/Backlight", QDBusConnection::systemBus(), this);
-    QObject::connect(iface, &org::clightd::clightd::Backlight::Changed, this, &BacklightPctModel::updated);
+    iface = new OrgClightdClightdBacklightInterface("org.clightd.clightd", "/org/clightd/clightd/Backlight", QDBusConnection::systemBus(), this);
+    QObject::connect(iface, &OrgClightdClightdBacklightInterface::Changed, this, &BacklightPctModel::updated);
     getData();
 }
 

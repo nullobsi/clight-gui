@@ -25,7 +25,7 @@ public:
 public slots:
     void updated(QString serial, double pct);
 private:
-    org::clightd::clightd::Backlight *iface;
+    OrgClightdClightdBacklightInterface *iface;
     BacklightList dat;
 
     void getData();

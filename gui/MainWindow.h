@@ -7,6 +7,8 @@
 
 #include <QMainWindow>
 #include "BacklightTab.h"
+#include "DimmerTab.h"
+#include "Conf.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -22,8 +24,9 @@ public:
 
 private:
     Ui::MainWindow *ui;
-
+    OrgClightClightConfInterface *clightConf;
     BacklightTab *tab1;
+    DimmerTab *tab2;
 };
 
 #endif //CLIGHTD_GUI_MAINWINDOW_H

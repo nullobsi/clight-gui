@@ -26,9 +26,8 @@ public slots:
     void smoothChanged(int v);
 private:
     Ui::BacklightTab *ui;
-
     BacklightPctModel *backlightStat;
-    org::clight::clight::Conf::Backlight *backlightConf;
+    OrgClightClightConfBacklightInterface *backlightConf;
 };
 
 #endif //CLIGHTD_GUI_BACKLIGHTTAB_H

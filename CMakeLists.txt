@@ -12,7 +12,7 @@ set(REQUIRED_LIBS_QUALIFIED Qt6::Core Qt6::Gui Qt6::Widgets Qt6::DBus)
 
 find_package(Qt${QT_VERSION} COMPONENTS ${REQUIRED_LIBS} REQUIRED)
 
-set(SRC_FILES main.cpp gui/MainWindow.cpp gui/MainWindow.h gui/MainWindow.ui models/BacklightPctModel.cpp models/BacklightPctModel.h)
+set(SRC_FILES main.cpp gui/MainWindow.cpp gui/MainWindow.h gui/MainWindow.ui models/BacklightPctModel.cpp models/BacklightPctModel.h util/initializeMetaTypes.cpp util/initializeMetaTypes.h gui/BacklightTab.cpp gui/BacklightTab.h gui/BacklightTab.ui gui/DimmerTab.cpp gui/DimmerTab.h gui/DimmerTab.ui)
 
 set(CLIGHT_XML dbus/clight/Backlight.xml dbus/clight/clight.xml dbus/clight/Conf.xml dbus/clight/Daytime.xml dbus/clight/Dimmer.xml dbus/clight/Dpms.xml dbus/clight/Gamma.xml dbus/clight/Inhibit.xml dbus/clight/Kbd.xml dbus/clight/Sensor.xml)
 set(CLIGHTD_XML dbus/clightd/Backlight.xml dbus/clightd/Dpms.xml dbus/clightd/Gamma.xml dbus/clightd/Screen.xml dbus/clightd/Sensor.xml)
@@ -24,17 +24,17 @@ set(DBUS_TYPE_SOURCES class/BacklightEntry.cpp class/BacklightSmooth.cpp class/C
 
 foreach(XML_FILE IN LISTS CLIGHT_XML)
     get_filename_component(BASENAME ${XML_FILE} NAME_WE)
-    set_source_files_properties(${XML_FILE} PROPERTIES INCLUDE ../class/DBusTypes.h)
+    set_source_files_properties(${XML_FILE} PROPERTIES INCLUDE ../class/DBusTypes.h NO_NAMESPACE ON)
     qt_add_dbus_interface(DBUS_FILES ${XML_FILE} ${BASENAME})
 endforeach()
 
 foreach(XML_FILE IN LISTS CLIGHTD_XML)
     get_filename_component(BASENAME ${XML_FILE} NAME_WE)
-    set_source_files_properties(${XML_FILE} PROPERTIES INCLUDE ../class/DBusTypes.h)
+    set_source_files_properties(${XML_FILE} PROPERTIES INCLUDE ../class/DBusTypes.h NO_NAMESPACE ON)
     qt_add_dbus_interface(DBUS_FILES ${XML_FILE} Sys${BASENAME})
 endforeach()
 
-add_executable(${PROJECT_NAME} ${SRC_FILES} ${DBUS_FILES} ${DBUS_TYPE_HEADERS} ${DBUS_TYPE_SOURCES} util/initializeMetaTypes.cpp util/initializeMetaTypes.h gui/BacklightTab.cpp gui/BacklightTab.h gui/BacklightTab.ui)
+add_executable(${PROJECT_NAME} ${SRC_FILES} ${DBUS_FILES} ${DBUS_TYPE_HEADERS} ${DBUS_TYPE_SOURCES})
 
 target_include_directories(${PROJECT_NAME} PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
 
