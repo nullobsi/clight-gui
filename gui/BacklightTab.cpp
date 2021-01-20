@@ -22,29 +22,33 @@ BacklightTab::BacklightTab(QWidget *parent) :
     QObject::connect(ui->smooth, &QCheckBox::stateChanged, this, &BacklightTab::smoothChanged);
     ui->smooth->setChecked(!backlightConf->noSmooth());
 
-    QObject::connect(ui->acDay, &QSpinBox::valueChanged, this->backlightConf, &OrgClightClightConfBacklightInterface::setAcDayTimeout);
+    void (QSpinBox::* qSpinValueChanged)(int) = &QSpinBox::valueChanged;
+    void (QDoubleSpinBox::* qDoubleSpinValueChanged)(double) = &QDoubleSpinBox::valueChanged;
+
+    QObject::connect(ui->acDay, qSpinValueChanged, this->backlightConf, &OrgClightClightConfBacklightInterface::setAcDayTimeout);
     ui->acDay->setValue(backlightConf->acDayTimeout());
 
-    QObject::connect(ui->acNight, &QSpinBox::valueChanged, this->backlightConf, &OrgClightClightConfBacklightInterface::setAcNightTimeout);
+    QObject::connect(ui->acNight, qSpinValueChanged, this->backlightConf, &OrgClightClightConfBacklightInterface::setAcNightTimeout);
     ui->acNight->setValue(backlightConf->acNightTimeout());
 
-    QObject::connect(ui->acEvent, &QSpinBox::valueChanged, this->backlightConf, &OrgClightClightConfBacklightInterface::setAcEventTimeout);
+    QObject::connect(ui->acEvent, qSpinValueChanged, this->backlightConf, &OrgClightClightConfBacklightInterface::setAcEventTimeout);
     ui->acEvent->setValue(backlightConf->acEventTimeout());
 
-    QObject::connect(ui->batteryDay, &QSpinBox::valueChanged, this->backlightConf, &OrgClightClightConfBacklightInterface::setBattDayTimeout);
+    QObject::connect(ui->batteryDay, qSpinValueChanged, this->backlightConf, &OrgClightClightConfBacklightInterface::setBattDayTimeout);
     ui->batteryDay->setValue(backlightConf->battDayTimeout());
 
-    QObject::connect(ui->batteryNight, &QSpinBox::valueChanged, this->backlightConf, &OrgClightClightConfBacklightInterface::setBattNightTimeout);
+    QObject::connect(ui->batteryNight, qSpinValueChanged, this->backlightConf, &OrgClightClightConfBacklightInterface::setBattNightTimeout);
     ui->batteryNight->setValue(backlightConf->battNightTimeout());
 
-    QObject::connect(ui->batteryEvent, &QSpinBox::valueChanged, this->backlightConf, &OrgClightClightConfBacklightInterface::setBattEventTimeout);
+    QObject::connect(ui->batteryEvent, qSpinValueChanged, this->backlightConf, &OrgClightClightConfBacklightInterface::setBattEventTimeout);
     ui->batteryEvent->setValue(backlightConf->battEventTimeout());
 
-    QObject::connect(ui->smoothStep, &QDoubleSpinBox::valueChanged, this->backlightConf, &OrgClightClightConfBacklightInterface::setTransStep);
+    QObject::connect(ui->smoothLength, qSpinValueChanged, this->backlightConf, &OrgClightClightConfBacklightInterface::setTransDuration);
+    ui->smoothLength->setValue(backlightConf->transDuration());
+
+    QObject::connect(ui->smoothStep, qDoubleSpinValueChanged, this->backlightConf, &OrgClightClightConfBacklightInterface::setTransStep);
     ui->smoothStep->setValue(backlightConf->transStep());
 
-    QObject::connect(ui->smoothLength, &QSpinBox::valueChanged, this->backlightConf, &OrgClightClightConfBacklightInterface::setTransDuration);
-    ui->smoothLength->setValue(backlightConf->transDuration());
 
     ui->brightnessTable->setModel(backlightStat);
 }

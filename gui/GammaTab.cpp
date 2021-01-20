@@ -42,10 +42,11 @@ GammaTab::GammaTab(QWidget *parent) :
     ui->dayTemp->setValue(gammaInterface->dayTemp());
     ui->nightTemp->setValue(gammaInterface->nightTemp());
 
-    QObject::connect(ui->smoothStep, &QSpinBox::valueChanged, gammaInterface, &OrgClightClightConfGammaInterface::setTransStep);
-    QObject::connect(ui->transDuration, &QSpinBox::valueChanged, gammaInterface, &OrgClightClightConfGammaInterface::setTransDuration);
-    QObject::connect(ui->dayTemp, &QSpinBox::valueChanged, gammaInterface, &OrgClightClightConfGammaInterface::setDayTemp);
-    QObject::connect(ui->nightTemp, &QSpinBox::valueChanged, gammaInterface, &OrgClightClightConfGammaInterface::setNightTemp);
+    void (QSpinBox::* qSpinValueChanged)(int) = &QSpinBox::valueChanged;
+    QObject::connect(ui->smoothStep, qSpinValueChanged, gammaInterface, &OrgClightClightConfGammaInterface::setTransStep);
+    QObject::connect(ui->transDuration, qSpinValueChanged, gammaInterface, &OrgClightClightConfGammaInterface::setTransDuration);
+    QObject::connect(ui->dayTemp, qSpinValueChanged, gammaInterface, &OrgClightClightConfGammaInterface::setDayTemp);
+    QObject::connect(ui->nightTemp, qSpinValueChanged, gammaInterface, &OrgClightClightConfGammaInterface::setNightTemp);
 }
 
 GammaTab::~GammaTab() {
