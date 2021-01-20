@@ -6,7 +6,8 @@
 #define CLIGHTD_GUI_INFOTAB_H
 
 #include <QWidget>
-
+#include "clight.h"
+#include "Properties.h"
 QT_BEGIN_NAMESPACE
 namespace Ui { class InfoTab; }
 QT_END_NAMESPACE
@@ -19,8 +20,13 @@ public:
 
     ~InfoTab() override;
 
+public slots:
+    void PropertyChanged(QString interface, PropertiesList propertiesUpdated, QStringList invalidProperties);
 private:
     Ui::InfoTab *ui;
+
+    OrgClightClightInterface *clight;
+    OrgFreedesktopDBusPropertiesInterface *properties;
 };
 
 #endif //CLIGHTD_GUI_INFOTAB_H

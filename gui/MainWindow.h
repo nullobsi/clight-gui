@@ -6,11 +6,13 @@
 #define CLIGHTD_GUI_MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QLabel>
 #include "BacklightTab.h"
 #include "DimmerTab.h"
 #include "Conf.h"
 #include "GammaTab.h"
-
+#include "InfoTab.h"
+#include "clight.h"
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
@@ -26,11 +28,19 @@ public:
 private:
     Ui::MainWindow *ui;
     OrgClightClightConfInterface *clightConf;
+    OrgClightClightInterface *clight;
 
     // tabs
-    BacklightTab *tab1;
-    DimmerTab *tab2;
-    GammaTab *tab3;
+    InfoTab *tab1;
+    BacklightTab *tab2;
+    DimmerTab *tab3;
+    GammaTab *tab4;
+
+    //status bar info
+    QLabel *powerState;
+    QLabel *lidState;
+    QLabel *clightVer;
+    QLabel *clightdVer;
 };
 
 #endif //CLIGHTD_GUI_MAINWINDOW_H
