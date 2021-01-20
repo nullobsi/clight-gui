@@ -12,7 +12,7 @@ set(REQUIRED_LIBS_QUALIFIED Qt6::Core Qt6::Gui Qt6::Widgets Qt6::DBus)
 
 find_package(Qt${QT_VERSION} COMPONENTS ${REQUIRED_LIBS} REQUIRED)
 
-set(SRC_FILES main.cpp gui/MainWindow.cpp gui/MainWindow.h gui/MainWindow.ui models/BacklightPctModel.cpp models/BacklightPctModel.h util/initializeMetaTypes.cpp util/initializeMetaTypes.h gui/BacklightTab.cpp gui/BacklightTab.h gui/BacklightTab.ui gui/DimmerTab.cpp gui/DimmerTab.h gui/DimmerTab.ui)
+set(SRC_FILES main.cpp gui/MainWindow.cpp gui/MainWindow.h gui/MainWindow.ui models/BacklightPctModel.cpp models/BacklightPctModel.h util/initializeMetaTypes.cpp util/initializeMetaTypes.h gui/BacklightTab.cpp gui/BacklightTab.h gui/BacklightTab.ui gui/DimmerTab.cpp gui/DimmerTab.h gui/DimmerTab.ui gui/GammaTab.cpp gui/GammaTab.h gui/GammaTab.ui)
 
 set(CLIGHT_XML dbus/clight/Backlight.xml dbus/clight/clight.xml dbus/clight/Conf.xml dbus/clight/Daytime.xml dbus/clight/Dimmer.xml dbus/clight/Dpms.xml dbus/clight/Gamma.xml dbus/clight/Inhibit.xml dbus/clight/Kbd.xml dbus/clight/Sensor.xml)
 set(CLIGHTD_XML dbus/clightd/Backlight.xml dbus/clightd/Dpms.xml dbus/clightd/Gamma.xml dbus/clightd/Screen.xml dbus/clightd/Sensor.xml)

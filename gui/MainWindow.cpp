@@ -14,9 +14,11 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
     tab1 = new BacklightTab(this);
     tab2 = new DimmerTab(this);
+    tab3 = new GammaTab(this);
 
     ui->tabWidget->addTab(tab1, "Backlight");
     ui->tabWidget->addTab(tab2, "Dimmer");
+    ui->tabWidget->addTab(tab3, "Gamma");
 
     QObject::connect(ui->actionSave, &QAction::triggered, this->clightConf, &OrgClightClightConfInterface::Store);
 

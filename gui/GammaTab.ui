@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>GammaTab</class>
+ <widget class="QWidget" name="GammaTab">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>400</width>
+    <height>300</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>GammaTab</string>
+  </property>
+  <layout class="QFormLayout" name="formLayout">
+   <item row="0" column="0">
+    <widget class="QLabel" name="label_7">
+     <property name="text">
+      <string>Current Gamma</string>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="0">
+    <widget class="QLabel" name="label">
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="1">
+    <widget class="QCheckBox" name="ambientGamma">
+     <property name="toolTip">
+      <string>Change gamma based on ambient conditions.</string>
+     </property>
+     <property name="text">
+      <string>Ambient Gamma</string>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="0">
+    <widget class="QLabel" name="label_2">
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="1">
+    <widget class="QCheckBox" name="smoothTrans">
+     <property name="text">
+      <string>Smooth Transition</string>
+     </property>
+    </widget>
+   </item>
+   <item row="4" column="0">
+    <widget class="QLabel" name="label_3">
+     <property name="text">
+      <string>Step</string>
+     </property>
+    </widget>
+   </item>
+   <item row="4" column="1">
+    <widget class="QSpinBox" name="smoothStep">
+     <property name="minimum">
+      <number>50</number>
+     </property>
+     <property name="maximum">
+      <number>500</number>
+     </property>
+     <property name="singleStep">
+      <number>50</number>
+     </property>
+    </widget>
+   </item>
+   <item row="5" column="0">
+    <widget class="QLabel" name="label_4">
+     <property name="text">
+      <string>Duration</string>
+     </property>
+    </widget>
+   </item>
+   <item row="5" column="1">
+    <widget class="QSpinBox" name="transDuration">
+     <property name="suffix">
+      <string> ms</string>
+     </property>
+     <property name="minimum">
+      <number>1</number>
+     </property>
+     <property name="maximum">
+      <number>50000</number>
+     </property>
+    </widget>
+   </item>
+   <item row="6" column="0">
+    <widget class="QLabel" name="label_5">
+     <property name="text">
+      <string>Daytime Temp</string>
+     </property>
+    </widget>
+   </item>
+   <item row="6" column="1">
+    <widget class="QSpinBox" name="dayTemp">
+     <property name="suffix">
+      <string> K</string>
+     </property>
+     <property name="minimum">
+      <number>2000</number>
+     </property>
+     <property name="maximum">
+      <number>6500</number>
+     </property>
+     <property name="singleStep">
+      <number>50</number>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="1">
+    <widget class="QProgressBar" name="currGamma">
+     <property name="minimum">
+      <number>2000</number>
+     </property>
+     <property name="maximum">
+      <number>6500</number>
+     </property>
+     <property name="value">
+      <number>6500</number>
+     </property>
+     <property name="format">
+      <string>%v K</string>
+     </property>
+    </widget>
+   </item>
+   <item row="7" column="0">
+    <widget class="QLabel" name="label_6">
+     <property name="text">
+      <string>Nighttime Temp</string>
+     </property>
+    </widget>
+   </item>
+   <item row="7" column="1">
+    <widget class="QSpinBox" name="nightTemp">
+     <property name="suffix">
+      <string> K</string>
+     </property>
+     <property name="minimum">
+      <number>2000</number>
+     </property>
+     <property name="maximum">
+      <number>6500</number>
+     </property>
+     <property name="singleStep">
+      <number>50</number>
+     </property>
+    </widget>
+   </item>
+   <item row="3" column="0">
+    <widget class="QLabel" name="label_8">
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+   </item>
+   <item row="3" column="1">
+    <widget class="QCheckBox" name="longTrans">
+     <property name="text">
+      <string>Long Transition</string>
+     </property>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

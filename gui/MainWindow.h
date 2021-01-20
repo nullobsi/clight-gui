@@ -9,6 +9,7 @@
 #include "BacklightTab.h"
 #include "DimmerTab.h"
 #include "Conf.h"
+#include "GammaTab.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -25,8 +26,11 @@ public:
 private:
     Ui::MainWindow *ui;
     OrgClightClightConfInterface *clightConf;
+
+    // tabs
     BacklightTab *tab1;
     DimmerTab *tab2;
+    GammaTab *tab3;
 };
 
 #endif //CLIGHTD_GUI_MAINWINDOW_H
