@@ -26,11 +26,11 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->tabWidget->addTab(tab4, "Gamma");
     ui->tabWidget->addTab(tab5, "Sensor");
 
-    // TODO: use freedesktop properties interface to update when status changes
     clightVer = new QLabel("CLight " + clight->version());
     clightdVer = new QLabel("CLightd " + clight->clightdVersion());
     powerState = new QLabel(clight->acState() == 0 ? "AC" : "Battery");
     lidState = new QLabel(clight->lidState() == 0 ? "Lid Open" : "Lid Closed");
+    ui->actionInhibit->setChecked(clight->inhibited());
 
     ui->statusbar->addPermanentWidget(clightVer);
     ui->statusbar->addPermanentWidget(clightdVer);
@@ -38,6 +38,10 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->statusbar->addPermanentWidget(lidState);
 
     QObject::connect(ui->actionSave, &QAction::triggered, this->clightConf, &OrgClightClightConfInterface::Store);
+    QObject::connect(ui->actionCapture, &QAction::triggered, this, &MainWindow::Capture);
+    QObject::connect(ui->actionInhibit, &QAction::triggered, this->clight, &OrgClightClightInterface::Inhibit);
+    QObject::connect(ui->actionPause, &QAction::triggered, this->clight, &OrgClightClightInterface::Pause);
+    QDBusConnection::sessionBus().connect("org.clight.clight", "/org/clight/clight", "org.freedesktop.DBus.Properties", "PropertiesChanged", this, SLOT(PropertyChanged(QString, QVariantMap)));
 
 }
 
@@ -47,4 +51,24 @@ MainWindow::~MainWindow() {
     delete tab2;
     delete tab3;
     delete tab4;
+}
+
+void MainWindow::PropertyChanged(QString interface, QVariantMap propertiesUpdated) {
+    if (interface == "org.clight.clight") {
+        auto keys = propertiesUpdated.keys();
+        for (const QString &p : keys) {
+            const QVariant v = propertiesUpdated.value(p);
+            if (p == "AcState") {
+                powerState->setText(v.toInt() == 0 ? "AC" : "Battery");
+            } else if (p == "LidState") {
+                lidState->setText(v.toInt() == 0 ? "Lid Open" : "Lid Closed");
+            } else if (p == "Inhibited") {
+                ui->actionInhibit->setChecked(v.toBool());
+            }
+        }
+    }
+}
+
+void MainWindow::Capture(bool checked) {
+    clight->Capture(false, false);
 }

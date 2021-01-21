@@ -38,7 +38,6 @@ InfoTab::~InfoTab() {
 }
 
 void InfoTab::PropertyChanged(QString interface, QVariantMap propertiesUpdated) {
-    qDebug() << interface << propertiesUpdated.size();
     if (interface == "org.clight.clight") {
         auto keys = propertiesUpdated.keys();
         for (const QString& p : keys) {

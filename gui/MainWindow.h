@@ -26,6 +26,9 @@ public:
 
     ~MainWindow() override;
 
+public slots:
+    void PropertyChanged(QString interface, QVariantMap propertiesUpdated);
+    void Capture(bool checked);
 private:
     Ui::MainWindow *ui;
     OrgClightClightConfInterface *clightConf;
