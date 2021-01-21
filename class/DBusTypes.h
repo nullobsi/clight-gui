@@ -12,6 +12,5 @@
 #include "Coordinate.h"
 #include "GammaSmooth.h"
 #include "SensorFrames.h"
-#include "PropertiesStruct.h"
 
 #endif //CLIGHTD_GUI_DBUSTYPES_H

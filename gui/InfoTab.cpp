@@ -11,12 +11,25 @@ InfoTab::InfoTab(QWidget *parent) :
         QWidget(parent), ui(new Ui::InfoTab) {
     ui->setupUi(this);
     clight = new OrgClightClightInterface("org.clight.clight", "/org/clight/clight", QDBusConnection::sessionBus(), this);
-    properties = new OrgFreedesktopDBusPropertiesInterface("org.clight.clight", "/org/clight/clight", QDBusConnection::sessionBus(), this);
+    //properties = new OrgFreedesktopDBusPropertiesInterface("org.clight.clight", "/org/clight/clight", QDBusConnection::sessionBus(), this);
 
     ui->sunriseDate->setDateTime(QDateTime::fromSecsSinceEpoch(clight->sunrise()));
     ui->sunsetDate->setDateTime(QDateTime::fromSecsSinceEpoch(clight->sunset()));
+    ui->currentEvent->setText(GetDayTime(clight->dayTime()));
+    ui->nextEvent->setText(GetNextEvent(clight->nextEvent()));
+    ui->inEvent->setChecked(clight->inEvent());
+    ui->location->setText(GetLocation(clight->location()));
 
-    QObject::connect(properties, &OrgFreedesktopDBusPropertiesInterface::PropertiesChanged, this, &InfoTab::PropertyChanged);
+    ui->isSuspended->setChecked(clight->suspended());
+    ui->isInhibited->setChecked(clight->inhibited());
+    ui->pmInhibited->setChecked(clight->pmInhibited());
+
+    ui->sensorAvailable->setChecked(clight->sensorAvail());
+    ui->ambientBrightness->setValue((int)(clight->ambientBr()*100));
+    ui->screenComp->setValue(clight->screenComp());
+
+    QDBusConnection::sessionBus().connect("org.clight.clight", "/org/clight/clight", "org.freedesktop.DBus.Properties", "PropertiesChanged", this, SLOT(PropertyChanged(QString, QVariantMap)));
+    //QObject::connect(this->properties, &OrgFreedesktopDBusPropertiesInterface::PropertiesChanged, this, &InfoTab::PropertyChanged);
 }
 
 InfoTab::~InfoTab() {
@@ -24,16 +37,56 @@ InfoTab::~InfoTab() {
     delete clight;
 }
 
-void InfoTab::PropertyChanged(QString interface, PropertiesList propertiesUpdated, QStringList invalidProperties) {
+void InfoTab::PropertyChanged(QString interface, QVariantMap propertiesUpdated) {
+    qDebug() << interface << propertiesUpdated.size();
     if (interface == "org.clight.clight") {
-        int num = propertiesUpdated.size();
-        for (int i = 0; i < num; i ++) {
-            const PropertiesStruct& s = propertiesUpdated.at(i);
-            if (s.property == "Sunrise") {
-                ui->sunriseDate->setDateTime(QDateTime::fromSecsSinceEpoch(s.value.variant().toLongLong()));
-            } else if (s.property == "Sunset") {
-                ui->sunsetDate->setDateTime(QDateTime::fromSecsSinceEpoch(s.value.variant().toLongLong()));
+        auto keys = propertiesUpdated.keys();
+        for (const QString& p : keys) {
+            const QVariant v = propertiesUpdated.value(p);
+
+            if (p == "Sunrise") {
+                ui->sunriseDate->setDateTime(QDateTime::fromSecsSinceEpoch(v.toLongLong()));
+            } else if (p == "Sunset") {
+                ui->sunsetDate->setDateTime(QDateTime::fromSecsSinceEpoch(v.toLongLong()));
+            } else if (p == "DayTime") {
+                ui->currentEvent->setText(GetDayTime(v.toInt()));
+            } else if (p == "NextEvent") {
+                ui->nextEvent->setText(GetNextEvent(v.toInt()));
+            } else if (p == "InEvent") {
+                ui->inEvent->setChecked(v.toBool());
+            } else if (p == "Location") {
+                ui->location->setText(GetLocation(v.value<Coordinate>()));
+            } else if (p == "Suspended") {
+                ui->isSuspended->setChecked(v.toBool());
+            } else if (p == "Inhibited") {
+                ui->isInhibited->setChecked(v.toBool());
+            } else if (p == "PmInhibited") {
+                ui->pmInhibited->setChecked(v.toBool());
+            } else if (p == "SensorAvail") {
+                ui->sensorAvailable->setChecked(v.toBool());
+            } else if (p == "AmbientBr") {
+                ui->ambientBrightness->setValue((int)(v.toDouble()*100));
+            } else if (p == "ScreenComp") {
+                ui->screenComp->setValue(v.toDouble());
             }
         }
     }
+}
+
+QString InfoTab::GetDayTime(int v) {
+    if (v) {
+        return "Night";
+    }
+    return "Day";
+}
+
+QString InfoTab::GetNextEvent(int v) {
+    if (v) {
+        return "Sunset";
+    }
+    return "Sunrise";
+}
+
+QString InfoTab::GetLocation(Coordinate c) {
+    return QString::number(c.lat, 'f', 3) + ", " + QString::number(c.lon, 'f', 3);
 }

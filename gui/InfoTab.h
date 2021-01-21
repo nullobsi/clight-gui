@@ -7,7 +7,6 @@
 
 #include <QWidget>
 #include "clight.h"
-#include "Properties.h"
 QT_BEGIN_NAMESPACE
 namespace Ui { class InfoTab; }
 QT_END_NAMESPACE
@@ -21,12 +20,15 @@ public:
     ~InfoTab() override;
 
 public slots:
-    void PropertyChanged(QString interface, PropertiesList propertiesUpdated, QStringList invalidProperties);
+    void PropertyChanged(QString interface, QVariantMap propertiesUpdated);
 private:
     Ui::InfoTab *ui;
 
     OrgClightClightInterface *clight;
-    OrgFreedesktopDBusPropertiesInterface *properties;
+
+    static QString GetDayTime(int v);
+    static QString GetNextEvent(int v);
+    static QString GetLocation(Coordinate c);
 };
 
 #endif //CLIGHTD_GUI_INFOTAB_H
