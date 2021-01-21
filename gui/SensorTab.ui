@@ -24,7 +24,11 @@
        <widget class="QChartView" name="batChart"/>
       </item>
       <item row="1" column="0">
-       <widget class="QTableView" name="batPoints"/>
+       <widget class="QListView" name="batPoints">
+        <property name="alternatingRowColors">
+         <bool>true</bool>
+        </property>
+       </widget>
       </item>
      </layout>
     </widget>
@@ -39,7 +43,11 @@
        <widget class="QChartView" name="acChart"/>
       </item>
       <item row="1" column="0">
-       <widget class="QTableView" name="acPoints"/>
+       <widget class="QListView" name="acPoints">
+        <property name="alternatingRowColors">
+         <bool>true</bool>
+        </property>
+       </widget>
       </item>
      </layout>
     </widget>

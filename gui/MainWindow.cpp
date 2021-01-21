@@ -18,11 +18,13 @@ MainWindow::MainWindow(QWidget *parent) :
     tab2 = new BacklightTab(this);
     tab3 = new DimmerTab(this);
     tab4 = new GammaTab(this);
+    tab5 = new SensorTab(this);
 
     ui->tabWidget->addTab(tab1, "Info");
     ui->tabWidget->addTab(tab2, "Backlight");
     ui->tabWidget->addTab(tab3, "Dimmer");
     ui->tabWidget->addTab(tab4, "Gamma");
+    ui->tabWidget->addTab(tab5, "Sensor");
 
     // TODO: use freedesktop properties interface to update when status changes
     clightVer = new QLabel("CLight " + clight->version());

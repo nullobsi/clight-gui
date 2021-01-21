@@ -6,6 +6,9 @@
 #define CLIGHTD_GUI_SENSORTAB_H
 
 #include <QWidget>
+#include <QLineSeries>
+#include <QChart>
+#include "../models/RegressionPointModel.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class SensorTab; }
@@ -19,8 +22,21 @@ public:
 
     ~SensorTab() override;
 
+public slots:
+    void onChangeBat(const QModelIndex &topLeft, const QModelIndex &bottomRight, const QVector<int> &roles = QVector<int>());
+    void onChangeAc(const QModelIndex &topLeft, const QModelIndex &bottomRight, const QVector<int> &roles = QVector<int>());
+
 private:
     Ui::SensorTab *ui;
+
+    RegressionPointModel *ac;
+    RegressionPointModel *bat;
+
+    QtCharts::QLineSeries *acSeries;
+    QtCharts::QLineSeries *batSeries;
+
+    QtCharts::QChart *acChart;
+    QtCharts::QChart *batChart;
 };
 
 #endif //CLIGHTD_GUI_SENSORTAB_H

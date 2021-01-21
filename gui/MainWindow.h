@@ -12,6 +12,7 @@
 #include "Conf.h"
 #include "GammaTab.h"
 #include "InfoTab.h"
+#include "SensorTab.h"
 #include "clight.h"
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -35,6 +36,7 @@ private:
     BacklightTab *tab2;
     DimmerTab *tab3;
     GammaTab *tab4;
+    SensorTab *tab5;
 
     //status bar info
     QLabel *powerState;
