@@ -45,6 +45,7 @@ DimmerTab::DimmerTab(QWidget *parent) :
 
 DimmerTab::~DimmerTab() {
     delete ui;
+    delete iface;
 }
 
 void DimmerTab::smoothDimChanged(int v) {

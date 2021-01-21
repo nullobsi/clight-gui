@@ -41,4 +41,8 @@ MainWindow::MainWindow(QWidget *parent) :
 
 MainWindow::~MainWindow() {
     delete ui;
+    delete tab1;
+    delete tab2;
+    delete tab3;
+    delete tab4;
 }
