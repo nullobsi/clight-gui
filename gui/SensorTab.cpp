@@ -72,6 +72,14 @@ SensorTab::SensorTab(QWidget *parent) :
 
     QObject::connect(ac, &QAbstractItemModel::dataChanged, this, &SensorTab::onChangeAc);
     QObject::connect(bat, &QAbstractItemModel::dataChanged, this, &SensorTab::onChangeBat);
+
+    auto iface = ac->getIface();
+    ui->batSamples->setValue(iface->battCaptures());
+    ui->acSamples->setValue(iface->acCaptures());
+
+    void (QSpinBox::* qSpinValueChanged)(int) = &QSpinBox::valueChanged;
+    QObject::connect(ui->acSamples, qSpinValueChanged, iface, &OrgClightClightConfSensorInterface::setAcCaptures);
+    QObject::connect(ui->batSamples, qSpinValueChanged, iface, &OrgClightClightConfSensorInterface::setBattCaptures);
 }
 
 SensorTab::~SensorTab() {

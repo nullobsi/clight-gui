@@ -26,6 +26,7 @@ public:
     bool removeRows(int row, int count, const QModelIndex &parent = QModelIndex()) override;
 
     QList<QPointF> getPoints();
+    OrgClightClightConfSensorInterface *getIface();
 
 private:
     OrgClightClightConfSensorInterface *iface;

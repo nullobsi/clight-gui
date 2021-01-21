@@ -111,3 +111,7 @@ QList<QPointF> RegressionPointModel::getPoints() {
 
     return list;
 }
+
+OrgClightClightConfSensorInterface *RegressionPointModel::getIface() {
+    return iface;
+}

@@ -20,15 +20,29 @@
       <string>Battery</string>
      </property>
      <layout class="QGridLayout" name="gridLayout_3">
-      <item row="0" column="0">
+      <item row="1" column="0">
        <widget class="QChartView" name="batChart"/>
       </item>
-      <item row="1" column="0">
+      <item row="2" column="0">
        <widget class="QListView" name="batPoints">
         <property name="alternatingRowColors">
          <bool>true</bool>
         </property>
        </widget>
+      </item>
+      <item row="0" column="0">
+       <layout class="QFormLayout" name="formLayout_2">
+        <item row="0" column="0">
+         <widget class="QLabel" name="label_2">
+          <property name="text">
+           <string>Captures</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="1">
+         <widget class="QSpinBox" name="batSamples"/>
+        </item>
+       </layout>
       </item>
      </layout>
     </widget>
@@ -39,15 +53,29 @@
       <string>AC</string>
      </property>
      <layout class="QGridLayout" name="gridLayout_2">
-      <item row="0" column="0">
+      <item row="4" column="0">
        <widget class="QChartView" name="acChart"/>
       </item>
-      <item row="1" column="0">
+      <item row="5" column="0">
        <widget class="QListView" name="acPoints">
         <property name="alternatingRowColors">
          <bool>true</bool>
         </property>
        </widget>
+      </item>
+      <item row="0" column="0">
+       <layout class="QFormLayout" name="formLayout">
+        <item row="0" column="0">
+         <widget class="QLabel" name="label">
+          <property name="text">
+           <string>Captures</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="1">
+         <widget class="QSpinBox" name="acSamples"/>
+        </item>
+       </layout>
       </item>
      </layout>
     </widget>
