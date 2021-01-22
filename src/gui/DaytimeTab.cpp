@@ -21,7 +21,7 @@ DaytimeTab::DaytimeTab(QWidget *parent) :
     QObject::connect(ui->sunset, &QTimeEdit::userTimeChanged, this, &DaytimeTab::sunsetChanged);
     QObject::connect(ui->sunrise, &QTimeEdit::userTimeChanged, this, &DaytimeTab::sunriseChanged);
 
-    qDebug() << QObject::connect(ui->delSunset, &QPushButton::clicked, this, &DaytimeTab::sunsetDel);
+    QObject::connect(ui->delSunset, &QPushButton::clicked, this, &DaytimeTab::sunsetDel);
     QObject::connect(ui->delSunrise, &QPushButton::clicked, this, &DaytimeTab::sunriseDel);
 }
 

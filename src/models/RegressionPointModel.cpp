@@ -107,7 +107,6 @@ QList<QPointF> RegressionPointModel::getPoints() {
         const auto pt = QPointF(((double)i / n)*100, v*100);
         list.append(pt);
     }
-    qDebug() << list;
 
     return list;
 }
