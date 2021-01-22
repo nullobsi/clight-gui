@@ -19,12 +19,15 @@ MainWindow::MainWindow(QWidget *parent) :
     tab3 = new DimmerTab(this);
     tab4 = new GammaTab(this);
     tab5 = new SensorTab(this);
+    tab6 = new KeyboardTab(this);
 
     ui->tabWidget->addTab(tab1, "Info");
     ui->tabWidget->addTab(tab2, "Backlight");
     ui->tabWidget->addTab(tab3, "Dimmer");
     ui->tabWidget->addTab(tab4, "Gamma");
     ui->tabWidget->addTab(tab5, "Sensor");
+    ui->tabWidget->addTab(tab6, "Keyboard");
+
 
     clightVer = new QLabel("CLight " + clight->version());
     clightdVer = new QLabel("CLightd " + clight->clightdVersion());
