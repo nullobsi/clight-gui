@@ -1,0 +1,18 @@
+<!DOCTYPE node PUBLIC "-//freedesktop//DTD D-BUS Object Introspection 1.0//EN"
+        "http://www.freedesktop.org/standards/dbus/1.0/introspect.dtd">
+<node>
+    <interface name="org.clight.clight.Conf.Screen">
+        <property name="NumSamples" type="i" access="read">
+            <annotation name="org.freedesktop.DBus.Property.EmitsChangedSignal" value="const"/>
+        </property>
+        <property name="Contrib" type="d" access="readwrite">
+            <annotation name="org.freedesktop.DBus.Property.EmitsChangedSignal" value="false"/>
+        </property>
+        <property name="AcTimeout" type="i" access="readwrite">
+            <annotation name="org.freedesktop.DBus.Property.EmitsChangedSignal" value="false"/>
+        </property>
+        <property name="BattTimeout" type="i" access="readwrite">
+            <annotation name="org.freedesktop.DBus.Property.EmitsChangedSignal" value="false"/>
+        </property>
+    </interface>
+</node>

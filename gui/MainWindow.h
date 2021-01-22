@@ -14,6 +14,7 @@
 #include "InfoTab.h"
 #include "SensorTab.h"
 #include "KeyboardTab.h"
+#include "ScreenTab.h"
 #include "clight.h"
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -42,6 +43,7 @@ private:
     GammaTab *tab4;
     SensorTab *tab5;
     KeyboardTab *tab6;
+    ScreenTab *tab7;
 
 
     //status bar info

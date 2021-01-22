@@ -20,6 +20,7 @@ MainWindow::MainWindow(QWidget *parent) :
     tab4 = new GammaTab(this);
     tab5 = new SensorTab(this);
     tab6 = new KeyboardTab(this);
+    tab7 = new ScreenTab(this);
 
     ui->tabWidget->addTab(tab1, "Info");
     ui->tabWidget->addTab(tab2, "Backlight");
@@ -27,6 +28,8 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->tabWidget->addTab(tab4, "Gamma");
     ui->tabWidget->addTab(tab5, "Sensor");
     ui->tabWidget->addTab(tab6, "Keyboard");
+    ui->tabWidget->addTab(tab7, "Screen Comp.");
+
 
 
     clightVer = new QLabel("CLight " + clight->version());
