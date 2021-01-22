@@ -71,6 +71,40 @@
         </property>
        </widget>
       </item>
+      <item row="3" column="0">
+       <widget class="QLabel" name="label_2">
+        <property name="toolTip">
+         <string>Inhibit Power Management if CLight is inhibited.</string>
+        </property>
+        <property name="text">
+         <string>Auto-Inhibit PM</string>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="1">
+       <widget class="QCheckBox" name="autoInhibitPm">
+        <property name="text">
+         <string> </string>
+        </property>
+       </widget>
+      </item>
+      <item row="4" column="0">
+       <widget class="QLabel" name="label_14">
+        <property name="toolTip">
+         <string>Inhibit CLight when docked.</string>
+        </property>
+        <property name="text">
+         <string>Docked Inhibit</string>
+        </property>
+       </widget>
+      </item>
+      <item row="4" column="1">
+       <widget class="QCheckBox" name="dockInhibit">
+        <property name="text">
+         <string> </string>
+        </property>
+       </widget>
+      </item>
      </layout>
     </widget>
    </item>
@@ -156,7 +190,7 @@
          <bool>false</bool>
         </property>
         <property name="text">
-         <string> </string>
+         <string/>
         </property>
        </widget>
       </item>

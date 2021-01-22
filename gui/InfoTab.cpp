@@ -11,6 +11,7 @@ InfoTab::InfoTab(QWidget *parent) :
         QWidget(parent), ui(new Ui::InfoTab) {
     ui->setupUi(this);
     clight = new OrgClightClightInterface("org.clight.clight", "/org/clight/clight", QDBusConnection::sessionBus(), this);
+    inhib = new OrgClightClightConfInhibitInterface("org.clight.clight", "/org/clight/clight/Conf/Inhibit", QDBusConnection::sessionBus(), this);
     //properties = new OrgFreedesktopDBusPropertiesInterface("org.clight.clight", "/org/clight/clight", QDBusConnection::sessionBus(), this);
 
     ui->sunriseDate->setDateTime(QDateTime::fromSecsSinceEpoch(clight->sunrise()));
@@ -29,6 +30,11 @@ InfoTab::InfoTab(QWidget *parent) :
     ui->screenComp->setValue(clight->screenComp());
 
     QDBusConnection::sessionBus().connect("org.clight.clight", "/org/clight/clight", "org.freedesktop.DBus.Properties", "PropertiesChanged", this, SLOT(PropertyChanged(QString, QVariantMap)));
+
+    ui->autoInhibitPm->setChecked(inhib->inhibitPM());
+    ui->dockInhibit->setChecked(inhib->inhibitDocked());
+    QObject::connect(ui->autoInhibitPm, &QCheckBox::stateChanged, this, &InfoTab::AutoInhibChanged);
+    QObject::connect(ui->dockInhibit, &QCheckBox::stateChanged, this, &InfoTab::DockInhibChanged);
     //QObject::connect(this->properties, &OrgFreedesktopDBusPropertiesInterface::PropertiesChanged, this, &InfoTab::PropertyChanged);
 }
 
@@ -88,4 +94,20 @@ QString InfoTab::GetNextEvent(int v) {
 
 QString InfoTab::GetLocation(Coordinate c) {
     return QString::number(c.lat, 'f', 3) + ", " + QString::number(c.lon, 'f', 3);
+}
+
+void InfoTab::AutoInhibChanged(int v) {
+    if (v == 2) {
+        inhib->setInhibitPM(true);
+    } else {
+        inhib->setInhibitPM(false);
+    }
+}
+
+void InfoTab::DockInhibChanged(int v) {
+    if (v == 2) {
+        inhib->setInhibitDocked(true);
+    } else {
+        inhib->setInhibitDocked(false);
+    }
 }

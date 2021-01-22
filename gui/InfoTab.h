@@ -7,6 +7,7 @@
 
 #include <QWidget>
 #include "clight.h"
+#include "Inhibit.h"
 QT_BEGIN_NAMESPACE
 namespace Ui { class InfoTab; }
 QT_END_NAMESPACE
@@ -21,10 +22,13 @@ public:
 
 public slots:
     void PropertyChanged(QString interface, QVariantMap propertiesUpdated);
+    void AutoInhibChanged(int v);
+    void DockInhibChanged(int v);
 private:
     Ui::InfoTab *ui;
 
     OrgClightClightInterface *clight;
+    OrgClightClightConfInhibitInterface *inhib;
 
     static QString GetDayTime(int v);
     static QString GetNextEvent(int v);
