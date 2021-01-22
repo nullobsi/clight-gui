@@ -7,6 +7,7 @@
 
 #include <QWidget>
 #include "Dimmer.h"
+#include "Dpms.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class DimmerTab; }
@@ -27,6 +28,7 @@ public slots:
 private:
     Ui::DimmerTab *ui;
     OrgClightClightConfDimmerInterface *iface;
+    OrgClightClightConfDpmsInterface *dpms;
 };
 
 #endif //CLIGHTD_GUI_DIMMERTAB_H

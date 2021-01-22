@@ -200,6 +200,52 @@
         </property>
        </widget>
       </item>
+      <item row="3" column="0">
+       <widget class="QLabel" name="label_10">
+        <property name="text">
+         <string>DPMS Timeout (AC)</string>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="1">
+       <widget class="QSpinBox" name="dpmsAc">
+        <property name="toolTip">
+         <string>-1 to disable.</string>
+        </property>
+        <property name="suffix">
+         <string> sec</string>
+        </property>
+        <property name="minimum">
+         <number>-1</number>
+        </property>
+        <property name="maximum">
+         <number>50000</number>
+        </property>
+       </widget>
+      </item>
+      <item row="4" column="0">
+       <widget class="QLabel" name="label_11">
+        <property name="text">
+         <string>DPMS Timeout (Batt)</string>
+        </property>
+       </widget>
+      </item>
+      <item row="4" column="1">
+       <widget class="QSpinBox" name="dpmsBat">
+        <property name="toolTip">
+         <string>-1 to disable.</string>
+        </property>
+        <property name="suffix">
+         <string> sec</string>
+        </property>
+        <property name="minimum">
+         <number>-1</number>
+        </property>
+        <property name="maximum">
+         <number>50000</number>
+        </property>
+       </widget>
+      </item>
      </layout>
     </widget>
    </item>

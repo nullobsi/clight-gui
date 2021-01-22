@@ -11,7 +11,7 @@ DimmerTab::DimmerTab(QWidget *parent) :
         QWidget(parent), ui(new Ui::DimmerTab) {
     ui->setupUi(this);
     iface = new OrgClightClightConfDimmerInterface("org.clight.clight", "/org/clight/clight/Conf/Dimmer", QDBusConnection::sessionBus(), this);
-
+    dpms = new OrgClightClightConfDpmsInterface("org.clight.clight", "/org/clight/clight/Conf/Dpms", QDBusConnection::sessionBus(), this);
     void (QSpinBox::* qSpinValueChanged)(int) = &QSpinBox::valueChanged;
     void (QDoubleSpinBox::* qDoubleSpinValueChanged)(double) = &QDoubleSpinBox::valueChanged;
 
@@ -41,11 +41,18 @@ DimmerTab::DimmerTab(QWidget *parent) :
 
     QObject::connect(ui->dimPct, qDoubleSpinValueChanged, iface, &OrgClightClightConfDimmerInterface::setDimmedPct);
     ui->dimPct->setValue(iface->dimmedPct());
+
+    ui->dpmsAc->setValue(dpms->acTimeout());
+    ui->dpmsBat->setValue(dpms->battTimeout());
+    void (QSpinBox::* spinChanged)(int) = &QSpinBox::valueChanged;
+    QObject::connect(ui->dpmsBat, spinChanged, dpms, &OrgClightClightConfDpmsInterface::setAcTimeout);
+    QObject::connect(ui->dpmsAc, spinChanged, dpms, &OrgClightClightConfDpmsInterface::setBattTimeout);
 }
 
 DimmerTab::~DimmerTab() {
     delete ui;
     delete iface;
+    delete dpms;
 }
 
 void DimmerTab::smoothDimChanged(int v) {
