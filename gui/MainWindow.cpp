@@ -66,9 +66,14 @@ MainWindow::MainWindow(QWidget *parent) :
     QObject::connect(trayUi->actionCapture, &QAction::triggered, this, &MainWindow::Capture);
     QObject::connect(trayUi->actionQuit, &QAction::triggered, qApp, &QCoreApplication::quit);
     QObject::connect(trayUi->actionOpen, &QAction::triggered, this, &MainWindow::show);
+    QObject::connect(trayUi->actionBlInc, &QAction::triggered, this, &MainWindow::IncBl);
+    QObject::connect(trayUi->actionDecBl, &QAction::triggered, this, &MainWindow::DecBl);
+    QObject::connect(trayUi->actionAutoCalib, &QAction::triggered, this, &MainWindow::MenuAutoCalibChanged);
+    QObject::connect(tab2, &BacklightTab::AutoCalibChanged, trayUi->actionAutoCalib, &QAction::setChecked);
     trayUi->actionInhibit->setChecked(clight->inhibited());
+    trayUi->actionAutoCalib->setChecked(tab2->AutoCalib());
 
-    trayUi->actionBacklight->setText("Brightness " + QString::number((int)(clight->blPct()*100)) + "%");
+    trayUi->menuBacklight->setTitle("Brightness " + QString::number((int)(clight->blPct()*100)) + "%");
     trayUi->actionAmbient->setText("Ambient " + QString::number((int)(clight->ambientBr()*100)) + "%");
 
     trayIcon->setContextMenu(trayMenu);
@@ -98,7 +103,7 @@ void MainWindow::PropertyChanged(QString interface, QVariantMap propertiesUpdate
                 ui->actionInhibit->setChecked(v.toBool());
                 trayUi->actionInhibit->setChecked(v.toBool());
             } else if (p == "BlPct") {
-                trayUi->actionBacklight->setText("Brightness " + QString::number((int)(v.toDouble()*100)) + "%");
+                trayUi->menuBacklight->setTitle("Brightness " + QString::number((int)(v.toDouble()*100)) + "%");
             } else if (p == "AmbientBr") {
                 trayUi->actionAmbient->setText("Ambient " + QString::number((int)(v.toDouble()*100)) + "%");
             }
@@ -115,4 +120,16 @@ void MainWindow::closeEvent(QCloseEvent *event) {
         hide();
         event->ignore();
     }
+}
+
+void MainWindow::DecBl() {
+    clight->DecBl(0.05);
+}
+
+void MainWindow::IncBl() {
+    clight->IncBl(0.05);
+}
+
+void MainWindow::MenuAutoCalibChanged(bool v) {
+    emit tab2->autoCalibChanged(v ? 2 : 0);
 }

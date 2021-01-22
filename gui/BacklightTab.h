@@ -20,10 +20,14 @@ public:
     explicit BacklightTab(QWidget *parent = nullptr);
 
     ~BacklightTab() override;
+
+    bool AutoCalib();
 public slots:
     void autoCalibChanged(int v);
     void lidClosedChanged(int v);
     void smoothChanged(int v);
+signals:
+    void AutoCalibChanged(bool n);
 private:
     Ui::BacklightTab *ui;
     BacklightPctModel *backlightStat;

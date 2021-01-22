@@ -39,6 +39,11 @@ protected:
 public slots:
     void PropertyChanged(QString interface, QVariantMap propertiesUpdated);
     void Capture(bool checked);
+
+    void IncBl();
+    void DecBl();
+
+    void MenuAutoCalibChanged(bool v);
 private:
     Ui::MainWindow *ui;
     QSystemTrayIcon *trayIcon;

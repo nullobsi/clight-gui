@@ -60,6 +60,11 @@ BacklightTab::~BacklightTab() {
 }
 
 void BacklightTab::autoCalibChanged(int v) {
+    if (ui->autoCalib->checkState() != v) {
+        ui->autoCalib->setCheckState(static_cast<Qt::CheckState>(v));
+    } else {
+        emit AutoCalibChanged(v == 2);
+    }
     if (v == 2) {
         backlightConf->setNoAutoCalib(false);
     } else {
@@ -81,4 +86,8 @@ void BacklightTab::smoothChanged(int v) {
     } else {
         backlightConf->setNoSmooth(true);
     }
+}
+
+bool BacklightTab::AutoCalib() {
+    return !backlightConf->noSmooth();
 }

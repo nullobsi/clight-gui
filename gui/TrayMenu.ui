@@ -5,6 +5,13 @@
   <property name="title">
    <string/>
   </property>
+  <widget class="QMenu" name="menuBacklight">
+   <property name="title">
+    <string>Backlight</string>
+   </property>
+   <addaction name="actionBlInc"/>
+   <addaction name="actionDecBl"/>
+  </widget>
   <action name="actionQuit">
    <property name="text">
     <string>&amp;Quit</string>
@@ -28,17 +35,6 @@
     <string>&amp;Inhibit</string>
    </property>
   </action>
-  <action name="actionBacklight">
-   <property name="enabled">
-    <bool>false</bool>
-   </property>
-   <property name="text">
-    <string>Backlight</string>
-   </property>
-   <property name="menuRole">
-    <enum>QAction::TextHeuristicRole</enum>
-   </property>
-  </action>
   <action name="actionAmbient">
    <property name="enabled">
     <bool>false</bool>
@@ -47,13 +43,32 @@
     <string>Ambient</string>
    </property>
   </action>
+  <action name="actionAutoCalib">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Auto-Calibrate</string>
+   </property>
+  </action>
+  <action name="actionBlInc">
+   <property name="text">
+    <string>Increase 5%</string>
+   </property>
+  </action>
+  <action name="actionDecBl">
+   <property name="text">
+    <string>Decrease 5%</string>
+   </property>
+  </action>
   <addaction name="actionQuit"/>
   <addaction name="actionOpen"/>
-  <addaction name="actionBacklight"/>
+  <addaction name="menuBacklight"/>
   <addaction name="actionAmbient"/>
   <addaction name="separator"/>
   <addaction name="actionCapture"/>
   <addaction name="actionInhibit"/>
+  <addaction name="actionAutoCalib"/>
  </widget>
  <resources/>
  <connections/>
