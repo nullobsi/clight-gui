@@ -50,7 +50,6 @@ MainWindow::MainWindow(QWidget *parent) :
     QObject::connect(ui->actionSave, &QAction::triggered, this->clightConf, &OrgClightClightConfInterface::Store);
     QObject::connect(ui->actionCapture, &QAction::triggered, this, &MainWindow::Capture);
     QObject::connect(ui->actionInhibit, &QAction::triggered, this->clight, &OrgClightClightInterface::Inhibit);
-    QObject::connect(ui->actionPause, &QAction::triggered, this->clight, &OrgClightClightInterface::Pause);
     QObject::connect(ui->actionQuit, &QAction::triggered, qApp, &QCoreApplication::quit);
     ui->actionInhibit->setChecked(clight->inhibited());
 
@@ -63,6 +62,16 @@ MainWindow::MainWindow(QWidget *parent) :
 
     trayUi = trayMenu->getUi();
     QObject::connect(trayUi->actionInhibit, &QAction::triggered, this->clight, &OrgClightClightInterface::Inhibit);
+
+    // mirror Pause option
+    // tray -> clight, menu
+    // menu -> clight, tray
+    QObject::connect(trayUi->actionPause, &QAction::triggered, this->clight, &OrgClightClightInterface::Pause);
+    QObject::connect(trayUi->actionPause, &QAction::triggered, ui->actionPause, &QAction::setChecked);
+
+    QObject::connect(ui->actionPause, &QAction::triggered, this->clight, &OrgClightClightInterface::Pause);
+    QObject::connect(ui->actionPause, &QAction::triggered, trayUi->actionPause, &QAction::setChecked);
+
     QObject::connect(trayUi->actionCapture, &QAction::triggered, this, &MainWindow::Capture);
     QObject::connect(trayUi->actionQuit, &QAction::triggered, qApp, &QCoreApplication::quit);
     QObject::connect(trayUi->actionBlInc, &QAction::triggered, this, &MainWindow::IncBl);
