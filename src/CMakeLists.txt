@@ -24,13 +24,13 @@ set(DBUS_TYPE_SOURCES class/BacklightEntry.cpp class/BacklightSmooth.cpp class/C
 
 foreach(XML_FILE IN LISTS CLIGHT_XML)
     get_filename_component(BASENAME ${XML_FILE} NAME_WE)
-    set_source_files_properties(${XML_FILE} PROPERTIES INCLUDE ../class/DBusTypes.h NO_NAMESPACE ON)
+    set_source_files_properties(${XML_FILE} PROPERTIES INCLUDE ${CMAKE_SOURCE_DIR}/class/DBusTypes.h NO_NAMESPACE ON)
     qt_add_dbus_interface(DBUS_FILES ${XML_FILE} ${BASENAME})
 endforeach()
 
 foreach(XML_FILE IN LISTS CLIGHTD_XML)
     get_filename_component(BASENAME ${XML_FILE} NAME_WE)
-    set_source_files_properties(${XML_FILE} PROPERTIES INCLUDE ../class/DBusTypes.h NO_NAMESPACE ON)
+    set_source_files_properties(${XML_FILE} PROPERTIES INCLUDE ${CMAKE_SOURCE_DIR}/class/DBusTypes.h NO_NAMESPACE ON)
     qt_add_dbus_interface(DBUS_FILES ${XML_FILE} Sys${BASENAME})
 endforeach()
 
