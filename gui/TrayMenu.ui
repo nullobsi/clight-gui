@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>TrayMenu</class>
+ <widget class="QMenu" name="TrayMenu">
+  <property name="title">
+   <string/>
+  </property>
+  <action name="actionQuit">
+   <property name="text">
+    <string>&amp;Quit</string>
+   </property>
+  </action>
+  <action name="actionCapture">
+   <property name="text">
+    <string>Force &amp;Capture</string>
+   </property>
+  </action>
+  <action name="actionOpen">
+   <property name="text">
+    <string>&amp;Open Window</string>
+   </property>
+  </action>
+  <action name="actionInhibit">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>&amp;Inhibit</string>
+   </property>
+  </action>
+  <action name="actionBacklight">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="text">
+    <string>Backlight</string>
+   </property>
+   <property name="menuRole">
+    <enum>QAction::TextHeuristicRole</enum>
+   </property>
+  </action>
+  <action name="actionAmbient">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="text">
+    <string>Ambient</string>
+   </property>
+  </action>
+  <addaction name="actionQuit"/>
+  <addaction name="actionOpen"/>
+  <addaction name="actionBacklight"/>
+  <addaction name="actionAmbient"/>
+  <addaction name="separator"/>
+  <addaction name="actionCapture"/>
+  <addaction name="actionInhibit"/>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

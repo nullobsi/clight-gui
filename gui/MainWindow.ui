@@ -50,6 +50,7 @@
      <string>&amp;File</string>
     </property>
     <addaction name="actionSave"/>
+    <addaction name="actionQuit"/>
    </widget>
    <widget class="QMenu" name="menu_Edit">
     <property name="title">
@@ -73,12 +74,12 @@
     <bool>true</bool>
    </property>
    <property name="text">
-    <string>Inhibit</string>
+    <string>&amp;Inhibit</string>
    </property>
   </action>
   <action name="actionCapture">
    <property name="text">
-    <string>Force Capture</string>
+    <string>Force &amp;Capture</string>
    </property>
   </action>
   <action name="actionPause">
@@ -86,7 +87,12 @@
     <bool>true</bool>
    </property>
    <property name="text">
-    <string>Pause</string>
+    <string>&amp;Pause</string>
+   </property>
+  </action>
+  <action name="actionQuit">
+   <property name="text">
+    <string>&amp;Quit</string>
    </property>
   </action>
  </widget>

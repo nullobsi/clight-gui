@@ -7,6 +7,7 @@
 
 #include <QMainWindow>
 #include <QLabel>
+#include <QSystemTrayIcon>
 #include "BacklightTab.h"
 #include "DimmerTab.h"
 #include "Conf.h"
@@ -16,7 +17,10 @@
 #include "KeyboardTab.h"
 #include "ScreenTab.h"
 #include "DaytimeTab.h"
+#include "TrayMenu.h"
+#include "ui_TrayMenu.h"
 #include "clight.h"
+
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
@@ -29,15 +33,23 @@ public:
 
     ~MainWindow() override;
 
+protected:
+    void closeEvent(QCloseEvent *event) override;
+
 public slots:
     void PropertyChanged(QString interface, QVariantMap propertiesUpdated);
     void Capture(bool checked);
 private:
     Ui::MainWindow *ui;
+    QSystemTrayIcon *trayIcon;
+    TrayMenu *trayMenu;
+    Ui::TrayMenu *trayUi;
+
+    // DBus
     OrgClightClightConfInterface *clightConf;
     OrgClightClightInterface *clight;
 
-    // tabs
+    // Tabs
     InfoTab *tab1;
     BacklightTab *tab2;
     DimmerTab *tab3;
@@ -47,8 +59,7 @@ private:
     ScreenTab *tab7;
     DaytimeTab *tab8;
 
-
-    //status bar info
+    // Status bar info
     QLabel *powerState;
     QLabel *lidState;
     QLabel *clightVer;
