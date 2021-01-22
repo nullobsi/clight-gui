@@ -15,6 +15,7 @@
 #include "SensorTab.h"
 #include "KeyboardTab.h"
 #include "ScreenTab.h"
+#include "DaytimeTab.h"
 #include "clight.h"
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -44,6 +45,7 @@ private:
     SensorTab *tab5;
     KeyboardTab *tab6;
     ScreenTab *tab7;
+    DaytimeTab *tab8;
 
 
     //status bar info
