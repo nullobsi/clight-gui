@@ -61,14 +61,22 @@
     <string>Decrease 5%</string>
    </property>
   </action>
+  <action name="actionPause">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Pause</string>
+   </property>
+  </action>
   <addaction name="actionQuit"/>
-  <addaction name="actionOpen"/>
   <addaction name="menuBacklight"/>
   <addaction name="actionAmbient"/>
   <addaction name="separator"/>
   <addaction name="actionCapture"/>
-  <addaction name="actionInhibit"/>
   <addaction name="actionAutoCalib"/>
+  <addaction name="actionInhibit"/>
+  <addaction name="actionPause"/>
  </widget>
  <resources/>
  <connections/>

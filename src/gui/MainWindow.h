@@ -44,6 +44,7 @@ public slots:
     void DecBl();
 
     void MenuAutoCalibChanged(bool v);
+    void TrayIconActivated(QSystemTrayIcon::ActivationReason reason);
 private:
     Ui::MainWindow *ui;
     QSystemTrayIcon *trayIcon;

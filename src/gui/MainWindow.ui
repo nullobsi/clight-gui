@@ -14,7 +14,8 @@
    <string>Clight GUI</string>
   </property>
   <property name="windowIcon">
-   <iconset theme="display-brightness"/>
+   <iconset theme="display-brightness">
+    <normaloff>.</normaloff>.</iconset>
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QGridLayout" name="gridLayout">
@@ -96,6 +97,9 @@
   <action name="actionQuit">
    <property name="text">
     <string>&amp;Quit</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Q</string>
    </property>
   </action>
  </widget>

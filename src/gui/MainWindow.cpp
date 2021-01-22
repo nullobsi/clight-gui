@@ -65,11 +65,11 @@ MainWindow::MainWindow(QWidget *parent) :
     QObject::connect(trayUi->actionInhibit, &QAction::triggered, this->clight, &OrgClightClightInterface::Inhibit);
     QObject::connect(trayUi->actionCapture, &QAction::triggered, this, &MainWindow::Capture);
     QObject::connect(trayUi->actionQuit, &QAction::triggered, qApp, &QCoreApplication::quit);
-    QObject::connect(trayUi->actionOpen, &QAction::triggered, this, &MainWindow::show);
     QObject::connect(trayUi->actionBlInc, &QAction::triggered, this, &MainWindow::IncBl);
     QObject::connect(trayUi->actionDecBl, &QAction::triggered, this, &MainWindow::DecBl);
     QObject::connect(trayUi->actionAutoCalib, &QAction::triggered, this, &MainWindow::MenuAutoCalibChanged);
     QObject::connect(tab2, &BacklightTab::AutoCalibChanged, trayUi->actionAutoCalib, &QAction::setChecked);
+    QObject::connect(trayIcon, &QSystemTrayIcon::activated, this, &MainWindow::TrayIconActivated);
     trayUi->actionInhibit->setChecked(clight->inhibited());
     trayUi->actionAutoCalib->setChecked(tab2->AutoCalib());
 
@@ -132,4 +132,18 @@ void MainWindow::IncBl() {
 
 void MainWindow::MenuAutoCalibChanged(bool v) {
     emit tab2->autoCalibChanged(v ? 2 : 0);
+}
+
+void MainWindow::TrayIconActivated(QSystemTrayIcon::ActivationReason reason) {
+    switch (reason) {
+        case QSystemTrayIcon::Trigger:
+            if (this->isVisible()) {
+                this->hide();
+            } else {
+                this->show();
+            }
+            break;
+        default:
+            break;
+    }
 }
