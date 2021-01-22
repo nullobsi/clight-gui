@@ -69,9 +69,18 @@
     <string>Pause</string>
    </property>
   </action>
+  <action name="labelEventStatus">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="text">
+    <string>Trans. to Sunrise at 12:00</string>
+   </property>
+  </action>
   <addaction name="actionQuit"/>
   <addaction name="menuBacklight"/>
   <addaction name="actionAmbient"/>
+  <addaction name="labelEventStatus"/>
   <addaction name="separator"/>
   <addaction name="actionCapture"/>
   <addaction name="actionAutoCalib"/>

@@ -70,6 +70,14 @@ private:
     QLabel *lidState;
     QLabel *clightVer;
     QLabel *clightdVer;
+
+    // String for tray
+    int nextEvent;
+    bool inEvent;
+    qulonglong sunrise;
+    qulonglong sunset;
+    void UpdateTray();
+
 };
 
 #endif //CLIGHTD_GUI_MAINWINDOW_H

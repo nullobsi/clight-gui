@@ -89,6 +89,12 @@ MainWindow::MainWindow(QWidget *parent) :
 
     trayIcon->setContextMenu(trayMenu);
     trayIcon->setVisible(true);
+
+    inEvent = clight->inEvent();
+    sunrise = clight->sunrise();
+    sunset = clight->sunset();
+    nextEvent = clight->nextEvent();
+    UpdateTray();
 }
 
 MainWindow::~MainWindow() {
@@ -117,6 +123,18 @@ void MainWindow::PropertyChanged(QString interface, QVariantMap propertiesUpdate
                 trayUi->menuBacklight->setTitle("Brightness " + QString::number((int)(v.toDouble()*100)) + "%");
             } else if (p == "AmbientBr") {
                 trayUi->actionAmbient->setText("Ambient " + QString::number((int)(v.toDouble()*100)) + "%");
+            } else if (p == "Sunrise") {
+                sunrise = v.toULongLong();
+                UpdateTray();
+            } else if (p == "Sunset") {
+                sunset = v.toULongLong();
+                UpdateTray();
+            } else if (p == "NextEvent") {
+                nextEvent = v.toInt();
+                UpdateTray();
+            } else if (p == "InEvent") {
+                inEvent = v.toBool();
+                UpdateTray();
             }
         }
     }
@@ -157,4 +175,12 @@ void MainWindow::TrayIconActivated(QSystemTrayIcon::ActivationReason reason) {
         default:
             break;
     }
+}
+
+void MainWindow::UpdateTray() {
+    auto str = QString("%1%2 at %3")
+            .arg(inEvent ? "Trans. to " : "")
+            .arg(nextEvent ? "Sunset" : "Sunrise")
+            .arg(QDateTime::fromSecsSinceEpoch(nextEvent ? sunset : sunrise).toString("H:mm"));
+    trayUi->labelEventStatus->setText(str);
 }
