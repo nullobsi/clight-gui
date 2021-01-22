@@ -45,9 +45,9 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->statusbar->addPermanentWidget(powerState);
     ui->statusbar->addPermanentWidget(lidState);
 
-
     // menu options
     QObject::connect(ui->actionSave, &QAction::triggered, this->clightConf, &OrgClightClightConfInterface::Store);
+    QObject::connect(ui->storeButton, &QPushButton::clicked, this->clightConf, &OrgClightClightConfInterface::Store);
     QObject::connect(ui->actionCapture, &QAction::triggered, this, &MainWindow::Capture);
     QObject::connect(ui->actionInhibit, &QAction::triggered, this->clight, &OrgClightClightInterface::Inhibit);
     QObject::connect(ui->actionQuit, &QAction::triggered, qApp, &QCoreApplication::quit);
@@ -61,7 +61,6 @@ MainWindow::MainWindow(QWidget *parent) :
     trayMenu = new TrayMenu(this);
 
     trayUi = trayMenu->getUi();
-    QObject::connect(trayUi->actionInhibit, &QAction::triggered, this->clight, &OrgClightClightInterface::Inhibit);
 
     // mirror Pause option
     // tray -> clight, menu
@@ -72,6 +71,8 @@ MainWindow::MainWindow(QWidget *parent) :
     QObject::connect(ui->actionPause, &QAction::triggered, this->clight, &OrgClightClightInterface::Pause);
     QObject::connect(ui->actionPause, &QAction::triggered, trayUi->actionPause, &QAction::setChecked);
 
+    // connect tray actions
+    QObject::connect(trayUi->actionInhibit, &QAction::triggered, this->clight, &OrgClightClightInterface::Inhibit);
     QObject::connect(trayUi->actionCapture, &QAction::triggered, this, &MainWindow::Capture);
     QObject::connect(trayUi->actionQuit, &QAction::triggered, qApp, &QCoreApplication::quit);
     QObject::connect(trayUi->actionBlInc, &QAction::triggered, this, &MainWindow::IncBl);
@@ -79,6 +80,7 @@ MainWindow::MainWindow(QWidget *parent) :
     QObject::connect(trayUi->actionAutoCalib, &QAction::triggered, this, &MainWindow::MenuAutoCalibChanged);
     QObject::connect(tab2, &BacklightTab::AutoCalibChanged, trayUi->actionAutoCalib, &QAction::setChecked);
     QObject::connect(trayIcon, &QSystemTrayIcon::activated, this, &MainWindow::TrayIconActivated);
+
     trayUi->actionInhibit->setChecked(clight->inhibited());
     trayUi->actionAutoCalib->setChecked(tab2->AutoCalib());
 
