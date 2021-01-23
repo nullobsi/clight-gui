@@ -52,11 +52,19 @@
    </property>
   </action>
   <action name="actionBlInc">
+   <property name="icon">
+    <iconset theme="brightness-plus" resource="../resources/resources.qrc">
+     <normaloff>:/icons/brightness-plus.svg</normaloff>:/icons/brightness-plus.svg</iconset>
+   </property>
    <property name="text">
     <string>Increase 5%</string>
    </property>
   </action>
   <action name="actionDecBl">
+   <property name="icon">
+    <iconset theme="brightness-minus" resource="../resources/resources.qrc">
+     <normaloff>:/icons/brightness-minus.svg</normaloff>:/icons/brightness-minus.svg</iconset>
+   </property>
    <property name="text">
     <string>Decrease 5%</string>
    </property>
@@ -87,6 +95,8 @@
   <addaction name="actionInhibit"/>
   <addaction name="actionPause"/>
  </widget>
- <resources/>
+ <resources>
+  <include location="../resources/resources.qrc"/>
+ </resources>
  <connections/>
 </ui>

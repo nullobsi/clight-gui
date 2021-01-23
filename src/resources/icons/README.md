@@ -1,0 +1,1 @@
+Icons taken from [Unicons](https://github.com/Iconscout/unicons) under the Apache 2.0 License.

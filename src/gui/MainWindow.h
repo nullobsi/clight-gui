@@ -50,6 +50,8 @@ private:
     QSystemTrayIcon *trayIcon;
     TrayMenu *trayMenu;
     Ui::TrayMenu *trayUi;
+    QIcon lowBrightness = QIcon::fromTheme("low-brightness", QIcon(":/icons/brightness-low.svg"));
+    QIcon highBrightness = QIcon::fromTheme("high-brightness", QIcon(":/icons/brightness.svg"));
 
     // DBus
     OrgClightClightConfInterface *clightConf;

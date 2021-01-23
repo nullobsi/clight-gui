@@ -1,0 +1,9 @@
+<!DOCTYPE RCC><RCC version="1.0">
+    <qresource>
+        <file>icons/brightness.svg</file>
+        <file>icons/brightness-low.svg</file>
+        <file>icons/brightness-minus.svg</file>
+        <file>icons/brightness-plus.svg</file>
+        <file>icons/settings-brightness.svg</file>
+    </qresource>
+</RCC>

@@ -57,7 +57,7 @@ MainWindow::MainWindow(QWidget *parent) :
     QDBusConnection::sessionBus().connect("org.clight.clight", "/org/clight/clight", "org.freedesktop.DBus.Properties", "PropertiesChanged", this, SLOT(PropertyChanged(QString, QVariantMap)));
 
     // create tray icon
-    trayIcon = new QSystemTrayIcon(QIcon::fromTheme("display-brightness"), this);
+    trayIcon = new QSystemTrayIcon(clight->blPct() < 0.5 ? lowBrightness : highBrightness, this);
     trayMenu = new TrayMenu(this);
 
     trayUi = trayMenu->getUi();
@@ -120,7 +120,14 @@ void MainWindow::PropertyChanged(QString interface, QVariantMap propertiesUpdate
                 ui->actionInhibit->setChecked(v.toBool());
                 trayUi->actionInhibit->setChecked(v.toBool());
             } else if (p == "BlPct") {
-                trayUi->menuBacklight->setTitle("Brightness " + QString::number((int)(v.toDouble()*100)) + "%");
+                double n = v.toDouble();
+                trayUi->menuBacklight->setTitle("Brightness " + QString::number((int)(n*100)) + "%");
+
+                if (n < 0.5) {
+                    trayIcon->setIcon(lowBrightness);
+                } else {
+                    trayIcon->setIcon(highBrightness);
+                }
             } else if (p == "AmbientBr") {
                 trayUi->actionAmbient->setText("Ambient " + QString::number((int)(v.toDouble()*100)) + "%");
             } else if (p == "Sunrise") {

@@ -34,7 +34,7 @@ foreach(XML_FILE IN LISTS CLIGHTD_XML)
     qt_add_dbus_interface(DBUS_FILES ${XML_FILE} Sys${BASENAME})
 endforeach()
 
-add_executable(${PROJECT_NAME} ${SRC_FILES} ${DBUS_FILES} ${DBUS_TYPE_HEADERS} ${DBUS_TYPE_SOURCES})
+add_executable(${PROJECT_NAME} ${SRC_FILES} ${DBUS_FILES} ${DBUS_TYPE_HEADERS} ${DBUS_TYPE_SOURCES} resources/resources.qrc)
 
 target_include_directories(${PROJECT_NAME} PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
 
