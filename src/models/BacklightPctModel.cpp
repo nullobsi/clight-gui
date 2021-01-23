@@ -65,7 +65,6 @@ void BacklightPctModel::getData() {
 }
 
 Qt::ItemFlags BacklightPctModel::flags(const QModelIndex &index) const {
-    qDebug() << index;
     if (index.column() == 1) {
         return Qt::ItemIsEnabled | Qt::ItemIsEditable | Qt::ItemIsSelectable;
     }
@@ -73,7 +72,6 @@ Qt::ItemFlags BacklightPctModel::flags(const QModelIndex &index) const {
 }
 
 bool BacklightPctModel::setData(const QModelIndex &index, const QVariant &value, int role) {
-    qDebug() << role;
     if (role != Qt::EditRole) return false;
     if (index.column() != 1) return false;
 
