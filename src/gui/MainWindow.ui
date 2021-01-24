@@ -15,7 +15,7 @@
   </property>
   <property name="windowIcon">
    <iconset theme="clight" resource="../resources/resources.qrc">
-    <normaloff>:/icons/settings-brightness.svg</normaloff>:/icons/settings-brightness.svg</iconset>
+    <normaloff>:/icons/dark/window-icon.svg</normaloff>:/icons/dark/window-icon.svg</iconset>
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QGridLayout" name="gridLayout">
