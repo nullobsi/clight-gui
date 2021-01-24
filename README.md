@@ -11,4 +11,4 @@ Support for configuring & managing Clight with a pretty GUI interface! It also i
 Requires cmake, Qt5/6, and Qt charts. The DBus C++ interfaces are generated based on the XML files for Clight.
 
 ## Installing
-There is no install files; I need to figure out how to do that, but PRs are welcome!
+An AUR package was created by user @yochananmarqos! You can check it out [here](https://aur.archlinux.org/packages/clight-gui-git/). For users of other distributions, the executable is completely portable and requires no other dependencies.
