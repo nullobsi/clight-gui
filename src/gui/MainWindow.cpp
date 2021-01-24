@@ -53,7 +53,9 @@ MainWindow::MainWindow(QWidget *parent) :
     QObject::connect(ui->actionCapture, &QAction::triggered, this, &MainWindow::Capture);
     QObject::connect(ui->actionInhibit, &QAction::triggered, this->clight, &OrgClightClightInterface::Inhibit);
     QObject::connect(ui->actionQuit, &QAction::triggered, qApp, &QCoreApplication::quit);
+    QObject::connect(ui->actionLightTrayIcon, &QAction::triggered, this, &MainWindow::TrayIconChanged);
     ui->actionInhibit->setChecked(clight->inhibited());
+    ui->actionLightTrayIcon->setChecked(QSettings().value("light-icons", false).toBool());
 
     // connect property notifier
     QDBusConnection::sessionBus().connect("org.clight.clight", "/org/clight/clight", "org.freedesktop.DBus.Properties", "PropertiesChanged", this, SLOT(PropertyChanged(QString, QVariantMap)));
@@ -192,4 +194,25 @@ void MainWindow::UpdateTray() {
             .arg(nextEvent ? "Sunset" : "Sunrise")
             .arg(QDateTime::fromSecsSinceEpoch(nextEvent ? sunset : sunrise).toString("H:mm"));
     trayUi->labelEventStatus->setText(str);
+}
+
+void MainWindow::TrayIconChanged(bool lightIcons) {
+    QSettings settings;
+    settings.setValue("light-icons", lightIcons);
+    QStringList search = QIcon::fallbackSearchPaths();
+    if (lightIcons) {
+        search.replace(0, ":/icons/light");
+    } else {
+        search.replace(0, ":/icons/dark");
+    }
+    QIcon::setFallbackSearchPaths(search);
+    highBrightness = QIcon::fromTheme("brightness-high");
+    lowBrightness = QIcon::fromTheme("brightness-low");
+    trayUi->actionDecBl->setIcon(QIcon::fromTheme("brightness-minus"));
+    trayUi->actionBlInc->setIcon(QIcon::fromTheme("brightness-plus"));
+    if (clight->blPct() < 0.5) {
+        trayIcon->setIcon(lowBrightness);
+    } else {
+        trayIcon->setIcon(highBrightness);
+    }
 }

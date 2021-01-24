@@ -18,15 +18,31 @@ int main(int argc, char *argv[]) {
         exit(0);
     }
 
+    // initialize DBus service
     QObject obj;
     DBusSingle *dbus = new DBusSingle(&obj);
-    MainWindow m;
-    QObject::connect(dbus, &DBusSingle::WindowOpenRequest, &m, &MainWindow::show);
     QDBusConnection::sessionBus().registerObject("/org/clightgui/App", &obj);
     if (!QDBusConnection::sessionBus().registerService("org.clightgui")) {
         qDebug() << "Error creating DBus service:\n" << QDBusConnection::sessionBus().lastError();
         exit(1);
     }
+
+    // check icon theme
+    QCoreApplication::setOrganizationName("clight-gui");
+    QCoreApplication::setApplicationName("clight-gui");
+    QSettings settings;
+    bool lightIcons = settings.value("light-icons", false).toBool();
+
+    QStringList search;
+    if (lightIcons)
+        search << ":/icons/light";
+    else
+        search << ":/icons/dark";
+    QIcon::setFallbackSearchPaths(search);
+
+    // initialize main window
+    MainWindow m;
+    QObject::connect(dbus, &DBusSingle::WindowOpenRequest, &m, &MainWindow::show);
     if (!args.contains("--tray")) {
         m.show();
     }

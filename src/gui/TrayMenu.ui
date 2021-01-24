@@ -53,8 +53,7 @@
   </action>
   <action name="actionBlInc">
    <property name="icon">
-    <iconset theme="brightness-plus" resource="../resources/resources.qrc">
-     <normaloff>:/icons/dark/brightness-plus.svg</normaloff>:/icons/dark/brightness-plus.svg</iconset>
+    <iconset theme="brightness-plus"/>
    </property>
    <property name="text">
     <string>Increase 5%</string>
@@ -62,8 +61,7 @@
   </action>
   <action name="actionDecBl">
    <property name="icon">
-    <iconset theme="brightness-minus" resource="../resources/resources.qrc">
-     <normaloff>:/icons/dark/brightness-minus.svg</normaloff>:/icons/dark/brightness-minus.svg</iconset>
+    <iconset theme="brightness-minus"/>
    </property>
    <property name="text">
     <string>Decrease 5%</string>

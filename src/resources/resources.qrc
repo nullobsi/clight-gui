@@ -5,5 +5,11 @@
         <file>icons/dark/brightness-minus.svg</file>
         <file>icons/dark/brightness-plus.svg</file>
         <file>icons/dark/window-icon.svg</file>
+
+        <file>icons/light/brightness-high.svg</file>
+        <file>icons/light/brightness-low.svg</file>
+        <file>icons/light/brightness-minus.svg</file>
+        <file>icons/light/brightness-plus.svg</file>
+        <file>icons/light/window-icon.svg</file>
     </qresource>
 </RCC>

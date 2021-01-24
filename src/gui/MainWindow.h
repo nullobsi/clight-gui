@@ -45,13 +45,14 @@ public slots:
 
     void MenuAutoCalibChanged(bool v);
     void TrayIconActivated(QSystemTrayIcon::ActivationReason reason);
+    void TrayIconChanged(bool lightIcons);
 private:
     Ui::MainWindow *ui;
     QSystemTrayIcon *trayIcon;
     TrayMenu *trayMenu;
     Ui::TrayMenu *trayUi;
-    QIcon lowBrightness = QIcon::fromTheme("brightness-low", QIcon(":/icons/dark/brightness-low.svg"));
-    QIcon highBrightness = QIcon::fromTheme("brightness-high", QIcon(":/icons/dark/brightness-high.svg"));
+    QIcon lowBrightness = QIcon::fromTheme("brightness-low"/*, QIcon(":/icons/dark/brightness-low.svg")*/);
+    QIcon highBrightness = QIcon::fromTheme("brightness-high"/*, QIcon(":/icons/dark/brightness-high.svg")*/);
 
     // DBus
     OrgClightClightConfInterface *clightConf;

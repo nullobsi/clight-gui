@@ -86,6 +86,7 @@
     <addaction name="actionInhibit"/>
     <addaction name="actionCapture"/>
     <addaction name="actionPause"/>
+    <addaction name="actionLightTrayIcon"/>
    </widget>
    <addaction name="menuFile"/>
    <addaction name="menu_Edit"/>
@@ -123,6 +124,14 @@
    </property>
    <property name="shortcut">
     <string>Ctrl+Q</string>
+   </property>
+  </action>
+  <action name="actionLightTrayIcon">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Light Tray Icon</string>
    </property>
   </action>
  </widget>
