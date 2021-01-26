@@ -8,6 +8,7 @@
 #include <QMainWindow>
 #include <QLabel>
 #include <QSystemTrayIcon>
+#include "../class/ScrollSysTray.h"
 #include "BacklightTab.h"
 #include "DimmerTab.h"
 #include "Conf.h"
@@ -48,7 +49,7 @@ public slots:
     void TrayIconChanged(bool lightIcons);
 private:
     Ui::MainWindow *ui;
-    QSystemTrayIcon *trayIcon;
+    ScrollSysTray *trayIcon;
     TrayMenu *trayMenu;
     Ui::TrayMenu *trayUi;
     QIcon lowBrightness = QIcon::fromTheme("brightness-low"/*, QIcon(":/icons/dark/brightness-low.svg")*/);

@@ -61,7 +61,7 @@ MainWindow::MainWindow(QWidget *parent) :
     QDBusConnection::sessionBus().connect("org.clight.clight", "/org/clight/clight", "org.freedesktop.DBus.Properties", "PropertiesChanged", this, SLOT(PropertyChanged(QString, QVariantMap)));
 
     // create tray icon
-    trayIcon = new QSystemTrayIcon(clight->blPct() < 0.5 ? lowBrightness : highBrightness, this);
+    trayIcon = new ScrollSysTray(clight->blPct() < 0.5 ? lowBrightness : highBrightness, this);
     trayMenu = new TrayMenu(this);
 
     trayUi = trayMenu->getUi();
@@ -84,7 +84,8 @@ MainWindow::MainWindow(QWidget *parent) :
     QObject::connect(trayUi->actionAutoCalib, &QAction::triggered, this, &MainWindow::MenuAutoCalibChanged);
     QObject::connect(tab2, &BacklightTab::AutoCalibChanged, trayUi->actionAutoCalib, &QAction::setChecked);
     QObject::connect(trayIcon, &QSystemTrayIcon::activated, this, &MainWindow::TrayIconActivated);
-
+    QObject::connect(trayIcon, &ScrollSysTray::ScrollUp, this, &MainWindow::IncBl);
+    QObject::connect(trayIcon, &ScrollSysTray::ScrollDown, this, &MainWindow::DecBl);
     trayUi->actionInhibit->setChecked(clight->inhibited());
     trayUi->actionAutoCalib->setChecked(tab2->AutoCalib());
 
