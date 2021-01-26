@@ -80,6 +80,9 @@ SensorTab::SensorTab(QWidget *parent) :
     void (QSpinBox::* qSpinValueChanged)(int) = &QSpinBox::valueChanged;
     QObject::connect(ui->acSamples, qSpinValueChanged, iface, &OrgClightClightConfSensorInterface::setAcCaptures);
     QObject::connect(ui->batSamples, qSpinValueChanged, iface, &OrgClightClightConfSensorInterface::setBattCaptures);
+
+    ui->batChart->setRenderHint(QPainter::Antialiasing);
+    ui->acChart->setRenderHint(QPainter::Antialiasing);
 }
 
 SensorTab::~SensorTab() {
