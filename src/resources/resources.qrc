@@ -1,15 +1,15 @@
 <!DOCTYPE RCC><RCC version="1.0">
     <qresource>
-        <file>icons/dark/brightness-high.svg</file>
-        <file>icons/dark/brightness-low.svg</file>
-        <file>icons/dark/brightness-minus.svg</file>
-        <file>icons/dark/brightness-plus.svg</file>
-        <file>icons/dark/window-icon.svg</file>
+        <file>icons/brightness-high-light.svg</file>
+        <file>icons/brightness-low-light.svg</file>
+        <file>icons/brightness-minus-light.svg</file>
+        <file>icons/brightness-plus-light.svg</file>
+        <file>icons/window-icon-light.svg</file>
 
-        <file>icons/light/brightness-high.svg</file>
-        <file>icons/light/brightness-low.svg</file>
-        <file>icons/light/brightness-minus.svg</file>
-        <file>icons/light/brightness-plus.svg</file>
-        <file>icons/light/window-icon.svg</file>
+        <file>icons/brightness-high-dark.svg</file>
+        <file>icons/brightness-low-dark.svg</file>
+        <file>icons/brightness-minus-dark.svg</file>
+        <file>icons/brightness-plus-dark.svg</file>
+        <file>icons/window-icon-dark.svg</file>
     </qresource>
 </RCC>

@@ -30,14 +30,9 @@ int main(int argc, char *argv[]) {
     // check icon theme
     QCoreApplication::setOrganizationName("clight-gui");
     QCoreApplication::setApplicationName("clight-gui");
-    QSettings settings;
-    bool lightIcons = settings.value("light-icons", false).toBool();
 
     QStringList search;
-    if (lightIcons)
-        search << ":/icons/light";
-    else
-        search << ":/icons/dark";
+    search << ":/icons";
     QIcon::setFallbackSearchPaths(search);
 
     // initialize main window

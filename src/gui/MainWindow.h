@@ -52,8 +52,8 @@ private:
     ScrollSysTray *trayIcon;
     TrayMenu *trayMenu;
     Ui::TrayMenu *trayUi;
-    QIcon lowBrightness = QIcon::fromTheme("brightness-low"/*, QIcon(":/icons/dark/brightness-low.svg")*/);
-    QIcon highBrightness = QIcon::fromTheme("brightness-high"/*, QIcon(":/icons/dark/brightness-high.svg")*/);
+    QIcon lowBrightness = QIcon::fromTheme("brightness-low-dark"/*, QIcon(":/icons/dark/brightness-low.svg")*/);
+    QIcon highBrightness = QIcon::fromTheme("brightness-high-dark"/*, QIcon(":/icons/dark/brightness-high-light.svg")*/);
 
     // DBus
     OrgClightClightConfInterface *clightConf;

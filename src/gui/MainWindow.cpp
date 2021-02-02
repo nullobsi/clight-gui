@@ -98,6 +98,18 @@ MainWindow::MainWindow(QWidget *parent) :
     sunset = clight->sunset();
     nextEvent = clight->nextEvent();
     UpdateTray();
+
+    if (QSettings().value("light-icons", false).toBool()) {
+        lowBrightness = QIcon::fromTheme("brightness-low-light");
+        highBrightness = QIcon::fromTheme("brightness-high-light");
+        trayUi->actionDecBl->setIcon(QIcon::fromTheme("brightness-minus-light"));
+        trayUi->actionBlInc->setIcon(QIcon::fromTheme("brightness-plus-light"));
+        if (clight->blPct() < 0.5) {
+            trayIcon->setIcon(lowBrightness);
+        } else {
+            trayIcon->setIcon(highBrightness);
+        }
+    }
 }
 
 MainWindow::~MainWindow() {

@@ -1,4 +1,9 @@
 cmake_minimum_required(VERSION 3.0)
+
+if (NOT DEFINED CMAKE_INSTALL_PREFIX)
+    set (CMAKE_INSTALL_PREFIX "/usr" CACHE PATH "Install to /usr" FORCE)
+endif()
+
 project(clight-gui)
 
 set(CMAKE_CXX_STANDARD 20)
@@ -52,3 +57,13 @@ if (NOT CMAKE_PREFIX_PATH)
 endif ()
 
 target_link_libraries(${PROJECT_NAME} ${REQUIRED_LIBS_QUALIFIED})
+
+install(TARGETS ${PROJECT_NAME} RUNTIME)
+
+set(ICONDIR "resources/icons")
+set(ICONS ${ICONDIR}/brightness-high-dark.svg ${ICONDIR}/brightness-high-light.svg
+          ${ICONDIR}/brightness-low-dark.svg ${ICONDIR}/brightness-low-light.svg
+          ${ICONDIR}/brightness-minus-dark.svg ${ICONDIR}/brightness-minus-light.svg
+          ${ICONDIR}/brightness-plus-dark.svg ${ICONDIR}/brightness-plus-light.svg)
+
+install(FILES ${ICONS} DESTINATION "share/icons/hicolor/scalable/apps")
