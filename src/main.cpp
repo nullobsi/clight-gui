@@ -38,7 +38,11 @@ int main(int argc, char *argv[]) {
     // initialize main window
     MainWindow m;
     QObject::connect(dbus, &DBusSingle::WindowOpenRequest, &m, &MainWindow::show);
-    if (!args.contains("--tray")) {
+    QSettings sett;
+    if (!sett.allKeys().contains("start-in-tray")) {
+        sett.setValue("start-in-tray", QVariant(false));
+    }
+    if (!args.contains("--tray") && !sett.value("start-in-tray", QVariant(false)).toBool()) {
         m.show();
     }
     return QApplication::exec();
