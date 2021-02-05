@@ -34,6 +34,8 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->tabWidget->addTab(tab7, "Screen Comp.");
     ui->tabWidget->addTab(tab8, "Daytime");
 
+    tab4->UpdateGamma(clight->temp());
+
     // update status bar
     clightVer = new QLabel("CLight " + clight->version());
     clightdVer = new QLabel("CLightd " + clight->clightdVersion());
@@ -157,6 +159,8 @@ void MainWindow::PropertyChanged(QString interface, QVariantMap propertiesUpdate
             } else if (p == "InEvent") {
                 inEvent = v.toBool();
                 UpdateTray();
+            } else if (p == "Temp") {
+                tab4->UpdateGamma(v.toInt());
             }
         }
     }

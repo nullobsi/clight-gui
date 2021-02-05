@@ -22,11 +22,11 @@ public:
     ~GammaTab() override;
 
 public slots:
-    void GammaChanged(QString display, int gamma);
     void AmbientGammaChanged(int v);
     void SmoothTransChanged(int v);
     void LongTransChanged(int v);
 
+    void UpdateGamma(int v);
 private:
     Ui::GammaTab *ui;
 
@@ -34,7 +34,6 @@ private:
     QString authority = "";
 
     // dbus
-    OrgClightdClightdGammaInterface *sysGamma;
     OrgClightClightConfGammaInterface *gammaInterface;
 };
 

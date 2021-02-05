@@ -11,22 +11,7 @@ GammaTab::GammaTab(QWidget *parent) :
         QWidget(parent), ui(new Ui::GammaTab) {
     ui->setupUi(this);
 
-    sysGamma = new OrgClightdClightdGammaInterface("org.clightd.clightd", "/org/clightd/clightd/Gamma", QDBusConnection::systemBus(), this);
     gammaInterface = new OrgClightClightConfGammaInterface("org.clight.clight", "/org/clight/clight/Conf/Gamma", QDBusConnection::sessionBus(), this);
-
-    // check environment variables for X11 or wayland
-    QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
-    currDisplay = env.value("WAYLAND_DISPLAY", "X11");
-    if (currDisplay == "X11" || currDisplay == "") {
-        currDisplay = env.value("DISPLAY", ":0");
-        authority = env.value("XAUTHORITY", "");
-    } else {
-        authority = env.value("XDG_RUNTIME_DIR", "");
-    }
-
-    ui->currGamma->setValue(sysGamma->Get(currDisplay, authority));
-    QObject::connect(this->sysGamma, &OrgClightdClightdGammaInterface::Changed, this, &GammaTab::GammaChanged);
-
 
     ui->ambientGamma->setChecked(gammaInterface->ambientGamma());
     ui->smoothTrans->setChecked(!gammaInterface->noSmooth());
@@ -51,13 +36,7 @@ GammaTab::GammaTab(QWidget *parent) :
 
 GammaTab::~GammaTab() {
     delete ui;
-    delete sysGamma;
     delete gammaInterface;
-}
-
-void GammaTab::GammaChanged(QString display, int gamma) {
-    if (display == currDisplay)
-        ui->currGamma->setValue(gamma);
 }
 
 void GammaTab::AmbientGammaChanged(int v) {
@@ -82,4 +61,8 @@ void GammaTab::LongTransChanged(int v) {
     } else {
         gammaInterface->setLongTransition(false);
     }
+}
+
+void GammaTab::UpdateGamma(int v) {
+    ui->currGamma->setValue(v);
 }
