@@ -5,7 +5,7 @@ Clight GUI written in Qt.
 Huge thanks to @FedeDP for writing [Clight](https://github.com/FedeDP/Clight) and [Clightd](https://github.com/FedeDP/Clightd/), the daemons upon which this is built on. They are also a requirement for this program ;)
 
 ## Features
-Please make sure you are using the latest versions of Clight (4.3) and Clightd (5.0) for the best experience!
+Please make sure you are using the latest versions of Clight (4.4) and Clightd (5.0) for the best experience!
 - Configure all aspects of Clight with a pretty GUI!
 - Tray applet with quick access to settings (scroll on it to change brightness!)
 - Minimize to tray by closing window
