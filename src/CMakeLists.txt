@@ -6,7 +6,7 @@ endif()
 
 project(clight-gui)
 
-configure_file(resources/translations.qrc ${CMAKE_BINARY_DIR} COPYONLY)
+configure_file(${CMAKE_SOURCE_DIR}/resources/translations.qrc ${CMAKE_BINARY_DIR} COPYONLY)
 
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_AUTOMOC ON)
@@ -30,7 +30,7 @@ set(DBUS_TYPE_HEADERS class/BacklightEntry.h class/BacklightSmooth.h class/Coord
 set(DBUS_TYPE_SOURCES class/BacklightEntry.cpp class/BacklightSmooth.cpp class/Coordinate.cpp class/GammaSmooth.cpp)
 
 if (${QT_VERSION} EQUAL 5)
-    qt5_create_translation(QM_FILES ${CMAKE_CURRENT_SOURCE_DIR} localization/clight-gui_en.ts localization/clight-gui_ja.ts)
+    qt5_create_translation(QM_FILES ${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_SOURCE_DIR}/localization/clight-gui_en.ts ${CMAKE_SOURCE_DIR}/localization/clight-gui_ja.ts)
 else()
     qt6_create_translation(QM_FILES ${CMAKE_CURRENT_SOURCE_DIR} localization/clight-gui_en.ts localization/clight-gui_ja.ts)
 endif()
