@@ -80,7 +80,7 @@ set(ICONS ${ICONDIR}/brightness-high-dark.svg ${ICONDIR}/brightness-high-light.s
           ${ICONDIR}/brightness-minus-dark.svg ${ICONDIR}/brightness-minus-light.svg
           ${ICONDIR}/brightness-plus-dark.svg ${ICONDIR}/brightness-plus-light.svg)
 
-install(FILES ${ICONS} DESTINATION "share/icons/hicolor/scalable/apps")
+install(FILES ${ICONS} DESTINATION "share/icons/hicolor/scalable/status")
 
 # Get the current working branch
 find_program(GITBIN git)
