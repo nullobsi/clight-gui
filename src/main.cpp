@@ -3,14 +3,28 @@
 #include "util/initializeMetaTypes.h"
 #include "dbus/DBusSingle.h"
 int main(int argc, char *argv[]) {
-    QApplication a(argc, argv);
+    QApplication a(argc, argv);// check icon theme
+	QCoreApplication::setOrganizationName("clight-gui");
+	QCoreApplication::setApplicationName("clight-gui");
+	QCoreApplication::setApplicationVersion(RELVER);
+
     initializeMetaTypes();
-    auto args = QCoreApplication::arguments();
-    // there's probably a better way to do this
-    if (args.contains("--help")) {
-        qDebug() << "Help:\n--help    Shows help information.\n--tray    Start minimized to tray.";
-        exit(0);
-    }
+
+    QTranslator t;
+    t.load(QLocale::system(), "qtbase_");
+    t.load(QLocale::system(), "clight-gui_", QString(), ":/translations");
+    a.installTranslator(&t);
+
+    QCommandLineParser parser;
+    parser.setApplicationDescription("Clight GUI");
+    parser.addHelpOption();
+    parser.addVersionOption();
+
+    QCommandLineOption trayOption("tray", QCoreApplication::translate("main", "Start minimized to tray."));
+    parser.addOption(trayOption);
+
+    parser.process(a);
+
     if (QDBusConnection::sessionBus().interface()->isServiceRegistered("org.clightgui")) {
         qDebug() << "Instance is already running. Launching...";
         QDBusInterface *iface = new QDBusInterface("org.clightgui", "/org/clightgui/App", "org.clightgui.App");
@@ -27,10 +41,6 @@ int main(int argc, char *argv[]) {
         exit(1);
     }
 
-    // check icon theme
-    QCoreApplication::setOrganizationName("clight-gui");
-    QCoreApplication::setApplicationName("clight-gui");
-
     QStringList search;
     search << ":/icons";
     QIcon::setFallbackSearchPaths(search);
@@ -42,7 +52,7 @@ int main(int argc, char *argv[]) {
     if (!sett.allKeys().contains("start-in-tray")) {
         sett.setValue("start-in-tray", QVariant(false));
     }
-    if (!args.contains("--tray") && !sett.value("start-in-tray", QVariant(false)).toBool()) {
+    if (!parser.isSet(trayOption) && !sett.value("start-in-tray", QVariant(false)).toBool()) {
         m.show();
     }
     return QApplication::exec();

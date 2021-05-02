@@ -80,16 +80,16 @@ void InfoTab::PropertyChanged(QString interface, QVariantMap propertiesUpdated) 
 
 QString InfoTab::GetDayTime(int v) {
     if (v) {
-        return "Night";
+        return tr("Night");
     }
-    return "Day";
+    return tr("Day");
 }
 
 QString InfoTab::GetNextEvent(int v) {
     if (v) {
-        return "Sunset";
+        return tr("Sunset");
     }
-    return "Sunrise";
+    return tr("Sunrise");
 }
 
 QString InfoTab::GetLocation(Coordinate c) {

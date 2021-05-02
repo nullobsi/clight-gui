@@ -6,13 +6,15 @@ endif()
 
 project(clight-gui)
 
+configure_file(resources/translations.qrc ${CMAKE_BINARY_DIR} COPYONLY)
+
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 set(CMAKE_AUTOUIC ON)
 
 set(QT_VERSION 5)
-set(REQUIRED_LIBS Core Gui Widgets DBus Charts)
+set(REQUIRED_LIBS Core Gui Widgets DBus Charts LinguistTools)
 set(REQUIRED_LIBS_QUALIFIED Qt${QT_VERSION}::Core Qt${QT_VERSION}::Gui Qt${QT_VERSION}::Widgets Qt${QT_VERSION}::DBus Qt${QT_VERSION}::Charts)
 
 find_package(Qt${QT_VERSION} COMPONENTS ${REQUIRED_LIBS} REQUIRED)
@@ -26,6 +28,12 @@ set(DBUS_FILES)
 
 set(DBUS_TYPE_HEADERS class/BacklightEntry.h class/BacklightSmooth.h class/Coordinate.h class/GammaSmooth.h class/SensorFrames.h)
 set(DBUS_TYPE_SOURCES class/BacklightEntry.cpp class/BacklightSmooth.cpp class/Coordinate.cpp class/GammaSmooth.cpp)
+
+if (${QT_VERSION} EQUAL 5)
+    qt5_create_translation(QM_FILES ${CMAKE_CURRENT_SOURCE_DIR} localization/clight-gui_en.ts localization/clight-gui_ja.ts)
+else()
+    qt6_create_translation(QM_FILES ${CMAKE_CURRENT_SOURCE_DIR} localization/clight-gui_en.ts localization/clight-gui_ja.ts)
+endif()
 
 foreach(XML_FILE IN LISTS CLIGHT_XML)
     get_filename_component(BASENAME ${XML_FILE} NAME_WE)
@@ -47,7 +55,7 @@ foreach(XML_FILE IN LISTS CLIGHTD_XML)
     endif()
 endforeach()
 
-add_executable(${PROJECT_NAME} ${SRC_FILES} ${DBUS_FILES} ${DBUS_TYPE_HEADERS} ${DBUS_TYPE_SOURCES} resources/resources.qrc)
+add_executable(${PROJECT_NAME} ${SRC_FILES} ${DBUS_FILES} ${DBUS_TYPE_HEADERS} ${DBUS_TYPE_SOURCES} ${QM_FILES} resources/resources.qrc ${CMAKE_BINARY_DIR}/translations.qrc)
 
 target_include_directories(${PROJECT_NAME} PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
 
@@ -67,3 +75,28 @@ set(ICONS ${ICONDIR}/brightness-high-dark.svg ${ICONDIR}/brightness-high-light.s
           ${ICONDIR}/brightness-plus-dark.svg ${ICONDIR}/brightness-plus-light.svg)
 
 install(FILES ${ICONS} DESTINATION "share/icons/hicolor/scalable/apps")
+
+# Get the current working branch
+find_program(GITBIN git)
+if(NOT DEFINED RELVER)
+    if (DEFINED GITBIN AND EXISTS ${CMAKE_SOURCE_DIR}/../.git)
+        execute_process(
+            COMMAND git rev-parse --abbrev-ref HEAD
+            WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+            OUTPUT_VARIABLE GIT_BRANCH
+            OUTPUT_STRIP_TRAILING_WHITESPACE
+        )
+
+        # Get the latest abbreviated commit hash of the working branch
+        execute_process(
+            COMMAND git log -1 --format=%h
+            WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+            OUTPUT_VARIABLE GIT_COMMIT_HASH
+            OUTPUT_STRIP_TRAILING_WHITESPACE
+        )
+    else()
+        set(RELVER "build-local")
+    endif()
+endif()
+
+target_compile_definitions(${PROJECT_NAME} PRIVATE RELVER=\"${RELVER}\")

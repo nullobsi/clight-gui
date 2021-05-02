@@ -25,20 +25,20 @@ MainWindow::MainWindow(QWidget *parent) :
     tab7 = new ScreenTab(this);
     tab8 = new DaytimeTab(this);
 
-    ui->tabWidget->addTab(tab1, "Info");
-    ui->tabWidget->addTab(tab2, "Backlight");
-    ui->tabWidget->addTab(tab3, "Dimmer");
-    ui->tabWidget->addTab(tab4, "Gamma");
-    ui->tabWidget->addTab(tab5, "Sensor");
-    ui->tabWidget->addTab(tab6, "Keyboard");
-    ui->tabWidget->addTab(tab7, "Screen Comp.");
-    ui->tabWidget->addTab(tab8, "Daytime");
+    ui->tabWidget->addTab(tab1, tr("Info"));
+    ui->tabWidget->addTab(tab2, tr("Backlight"));
+    ui->tabWidget->addTab(tab3, tr("Dimmer"));
+    ui->tabWidget->addTab(tab4, tr("Gamma"));
+    ui->tabWidget->addTab(tab5, tr("Sensor"));
+    ui->tabWidget->addTab(tab6, tr("Keyboard"));
+    ui->tabWidget->addTab(tab7, tr("Screen Comp."));
+    ui->tabWidget->addTab(tab8, tr("Daytime"));
 
     tab4->UpdateGamma(clight->temp());
 
     // update status bar
-    clightVer = new QLabel("CLight " + clight->version());
-    clightdVer = new QLabel("CLightd " + clight->clightdVersion());
+    clightVer = new QLabel("Clight " + clight->version());
+    clightdVer = new QLabel("Clightd " + clight->clightdVersion());
     powerState = new QLabel(clight->acState() == 0 ? "AC" : "Battery");
     lidState = new QLabel(clight->lidState() == 0 ? "Lid Open" : "Lid Closed");
 
@@ -130,23 +130,22 @@ void MainWindow::PropertyChanged(QString interface, QVariantMap propertiesUpdate
         for (const QString &p : keys) {
             const QVariant v = propertiesUpdated.value(p);
             if (p == "AcState") {
-                powerState->setText(v.toInt() == 0 ? "AC" : "Battery");
+                powerState->setText(v.toInt() == 0 ? tr("AC") : tr("Battery"));
             } else if (p == "LidState") {
-                lidState->setText(v.toInt() == 0 ? "Lid Open" : "Lid Closed");
+                lidState->setText(v.toInt() == 0 ? tr("Lid Open") : tr("Lid Closed"));
             } else if (p == "Inhibited") {
                 ui->actionInhibit->setChecked(v.toBool());
                 trayUi->actionInhibit->setChecked(v.toBool());
             } else if (p == "BlPct") {
                 double n = v.toDouble();
-                trayUi->menuBacklight->setTitle("Brightness " + QString::number((int)(n*100)) + "%");
-
+                trayUi->menuBacklight->setTitle(tr("Brightness %1%%").arg((int)(n*100)));
                 if (n < 0.5) {
                     trayIcon->setIcon(lowBrightness);
                 } else {
                     trayIcon->setIcon(highBrightness);
                 }
             } else if (p == "AmbientBr") {
-                trayUi->actionAmbient->setText("Ambient " + QString::number((int)(v.toDouble()*100)) + "%");
+                trayUi->actionAmbient->setText(tr("Ambient %1%%").arg((int)(v.toDouble()*100)));
             } else if (p == "Sunrise") {
                 sunrise = v.toULongLong();
                 UpdateTray();
@@ -204,11 +203,21 @@ void MainWindow::TrayIconActivated(QSystemTrayIcon::ActivationReason reason) {
 }
 
 void MainWindow::UpdateTray() {
-    auto str = QString("%1%2 at %3")
-            .arg(inEvent ? "Trans. to " : "")
-            .arg(nextEvent ? "Sunset" : "Sunrise")
-            .arg(QDateTime::fromSecsSinceEpoch(nextEvent ? sunset : sunrise).toString("H:mm"));
-    trayUi->labelEventStatus->setText(str);
+	QString str;
+	if (inEvent) {
+		if (nextEvent) {
+			str = tr("Trans. to sunset at %1");
+		} else {
+			str = tr("Trans. to sunrise at %1");
+		}
+	} else {
+		if (nextEvent) {
+			str = tr("Sunset at %1");
+		} else {
+			str = tr("Sunrise at %1");
+		}
+	}
+    trayUi->labelEventStatus->setText(str.arg(QDateTime::fromSecsSinceEpoch(nextEvent ? sunset : sunrise).toString("H:mm")));
 }
 
 void MainWindow::TrayIconChanged(bool lightIcons) {

@@ -27,13 +27,13 @@ SensorTab::SensorTab(QWidget *parent) :
     xAxis->setRange(0, 100);
     xAxis->setTickCount(11);
     xAxis->setLabelFormat("%.0f%%");
-    xAxis->setTitleText("Ambient Brightness");
+    xAxis->setTitleText(tr("Ambient Brightness"));
 
     auto yAxis = new QValueAxis();
     yAxis->setRange(0, 100);
     yAxis->setTickCount(11);
     yAxis->setLabelFormat("%.0f%%");
-    yAxis->setTitleText("Screen Brightness");
+    yAxis->setTitleText(tr("Screen Brightness"));
 
     acChart = new QChart();
     acChart->legend()->hide();
@@ -48,13 +48,13 @@ SensorTab::SensorTab(QWidget *parent) :
     xAxis1->setRange(0, 100);
     xAxis1->setTickCount(11);
     xAxis1->setLabelFormat("%.0f%%");
-    xAxis1->setTitleText("Ambient Brightness");
+    xAxis1->setTitleText(tr("Ambient Brightness"));
 
     auto yAxis1 = new QValueAxis();
     yAxis1->setRange(0, 100);
     yAxis1->setTickCount(11);
     yAxis1->setLabelFormat("%.0f%%");
-    yAxis1->setTitleText("Screen Brightness");
+    yAxis1->setTitleText(tr("Screen Brightness"));
 
     batChart = new QChart();
     batChart->legend()->hide();
