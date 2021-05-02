@@ -6,6 +6,8 @@ endif()
 
 project(clight-gui)
 
+option(GENERATE_TRANSLATIONS off "Generate translations for other languages.")
+
 configure_file(${CMAKE_SOURCE_DIR}/resources/translations.qrc ${CMAKE_BINARY_DIR} COPYONLY)
 
 set(CMAKE_CXX_STANDARD 20)
@@ -29,10 +31,13 @@ set(DBUS_FILES)
 set(DBUS_TYPE_HEADERS class/BacklightEntry.h class/BacklightSmooth.h class/Coordinate.h class/GammaSmooth.h class/SensorFrames.h)
 set(DBUS_TYPE_SOURCES class/BacklightEntry.cpp class/BacklightSmooth.cpp class/Coordinate.cpp class/GammaSmooth.cpp)
 
-if (${QT_VERSION} EQUAL 5)
-    qt5_create_translation(QM_FILES ${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_SOURCE_DIR}/localization/clight-gui_en.ts ${CMAKE_SOURCE_DIR}/localization/clight-gui_ja.ts)
-else()
-    qt6_create_translation(QM_FILES ${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_SOURCE_DIR}/localization/clight-gui_en.ts ${CMAKE_SOURCE_DIR}/localization/clight-gui_ja.ts)
+if (GENERATE_TRANSLATIONS)
+    if (${QT_VERSION} EQUAL 5)
+        qt5_create_translation(QM_FILES ${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_SOURCE_DIR}/localization/clight-gui_en.ts ${CMAKE_SOURCE_DIR}/localization/clight-gui_ja.ts)
+    else()
+        qt6_create_translation(QM_FILES ${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_SOURCE_DIR}/localization/clight-gui_en.ts ${CMAKE_SOURCE_DIR}/localization/clight-gui_ja.ts)
+    endif()
+    list(APPEND SRC_FILES ${QM_FILES} ${CMAKE_BINARY_DIR}/translations.qrc)
 endif()
 
 foreach(XML_FILE IN LISTS CLIGHT_XML)
@@ -55,7 +60,7 @@ foreach(XML_FILE IN LISTS CLIGHTD_XML)
     endif()
 endforeach()
 
-add_executable(${PROJECT_NAME} ${SRC_FILES} ${DBUS_FILES} ${DBUS_TYPE_HEADERS} ${DBUS_TYPE_SOURCES} ${QM_FILES} resources/resources.qrc ${CMAKE_BINARY_DIR}/translations.qrc)
+add_executable(${PROJECT_NAME} ${SRC_FILES} ${DBUS_FILES} ${DBUS_TYPE_HEADERS} ${DBUS_TYPE_SOURCES} ${QM_FILES} resources/resources.qrc)
 
 target_include_directories(${PROJECT_NAME} PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
 
