@@ -32,7 +32,7 @@ set(DBUS_TYPE_SOURCES class/BacklightEntry.cpp class/BacklightSmooth.cpp class/C
 if (${QT_VERSION} EQUAL 5)
     qt5_create_translation(QM_FILES ${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_SOURCE_DIR}/localization/clight-gui_en.ts ${CMAKE_SOURCE_DIR}/localization/clight-gui_ja.ts)
 else()
-    qt6_create_translation(QM_FILES ${CMAKE_CURRENT_SOURCE_DIR} localization/clight-gui_en.ts localization/clight-gui_ja.ts)
+    qt6_create_translation(QM_FILES ${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_SOURCE_DIR}/localization/clight-gui_en.ts ${CMAKE_SOURCE_DIR}/localization/clight-gui_ja.ts)
 endif()
 
 foreach(XML_FILE IN LISTS CLIGHT_XML)
