@@ -16,7 +16,7 @@ set(CMAKE_AUTORCC ON)
 set(CMAKE_AUTOUIC ON)
 
 set(QT_VERSION 5)
-set(REQUIRED_LIBS Core Gui Widgets DBus Charts LinguistTools)
+set(REQUIRED_LIBS Core Gui Widgets DBus Charts)
 set(REQUIRED_LIBS_QUALIFIED Qt${QT_VERSION}::Core Qt${QT_VERSION}::Gui Qt${QT_VERSION}::Widgets Qt${QT_VERSION}::DBus Qt${QT_VERSION}::Charts)
 
 find_package(Qt${QT_VERSION} COMPONENTS ${REQUIRED_LIBS} REQUIRED)
@@ -32,6 +32,7 @@ set(DBUS_TYPE_HEADERS class/BacklightEntry.h class/BacklightSmooth.h class/Coord
 set(DBUS_TYPE_SOURCES class/BacklightEntry.cpp class/BacklightSmooth.cpp class/Coordinate.cpp class/GammaSmooth.cpp)
 
 if (GENERATE_TRANSLATIONS)
+    find_package(Qt${QT_VERSION} COMPONENTS LinguistTools REQUIRED)
     if (${QT_VERSION} EQUAL 5)
         qt5_create_translation(QM_FILES ${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_SOURCE_DIR}/localization/clight-gui_en.ts ${CMAKE_SOURCE_DIR}/localization/clight-gui_ja.ts)
     else()
