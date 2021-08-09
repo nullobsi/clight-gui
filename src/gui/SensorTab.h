@@ -8,6 +8,7 @@
 #include <QWidget>
 #include <QLineSeries>
 #include <QChart>
+#include "Sensor.h"
 #include "../models/RegressionPointModel.h"
 
 QT_BEGIN_NAMESPACE
@@ -37,6 +38,14 @@ private:
 
     QtCharts::QChart *acChart;
     QtCharts::QChart *batChart;
+
+    void (* setFramesBat)(SensorFrames);
+    SensorFrames (* getFramesBat)();
+
+    void (* setFramesAc)(SensorFrames);
+    SensorFrames (* getFramesAc)();
+
+    OrgClightClightConfSensorInterface *iface;
 };
 
 #endif //CLIGHTD_GUI_SENSORTAB_H

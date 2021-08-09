@@ -5,13 +5,16 @@
 #ifndef CLIGHTD_GUI_REGRESSIONPOINTMODEL_H
 #define CLIGHTD_GUI_REGRESSIONPOINTMODEL_H
 #include <QAbstractListModel>
-#include "Sensor.h"
 #include "QPointF"
+#include "../class/SensorFrames.h"
+
 class RegressionPointModel : public QAbstractListModel {
     Q_OBJECT
 
+
+
 public:
-    explicit RegressionPointModel(int t, QObject *parent = nullptr);
+    explicit RegressionPointModel(int t, QObject *parent, SensorFrames frames);
 
     int rowCount(const QModelIndex &parent = QModelIndex()) const override;
 
@@ -26,14 +29,14 @@ public:
     bool removeRows(int row, int count, const QModelIndex &parent = QModelIndex()) override;
 
     QList<QPointF> getPoints();
-    OrgClightClightConfSensorInterface *getIface();
+
+signals:
+    void dataUpdated(SensorFrames);
 
 private:
-    OrgClightClightConfSensorInterface *iface;
     QList<double> dat;
 
     int type;
-    void getData();
     void updateData();
 };
 

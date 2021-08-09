@@ -13,9 +13,11 @@
         </property>
         <property name="AcPoints" type="ad" access="readwrite">
             <annotation name="org.freedesktop.DBus.Property.EmitsChangedSignal" value="false"/>
+            <annotation name="org.qtproject.QtDBus.QtTypeName" value="SensorFrames"/>
         </property>
         <property name="BattPoints" type="ad" access="readwrite">
             <annotation name="org.freedesktop.DBus.Property.EmitsChangedSignal" value="false"/>
+            <annotation name="org.qtproject.QtDBus.QtTypeName" value="SensorFrames"/>
         </property>
     </interface>
 </node>

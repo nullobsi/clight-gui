@@ -6,7 +6,10 @@
 #define CLIGHTD_GUI_KEYBOARDTAB_H
 
 #include <QWidget>
+#include <QLineSeries>
 #include "Kbd.h"
+#include "../models/RegressionPointModel.h"
+
 QT_BEGIN_NAMESPACE
 namespace Ui { class KeyboardTab; }
 QT_END_NAMESPACE
@@ -20,9 +23,21 @@ public:
     ~KeyboardTab() override;
 public slots:
     void EnabledChecked(int state);
+    void onChangeBat(const QModelIndex &topLeft, const QModelIndex &bottomRight, const QVector<int> &roles = QVector<int>());
+    void onChangeAc(const QModelIndex &topLeft, const QModelIndex &bottomRight, const QVector<int> &roles = QVector<int>());
+
 private:
     Ui::KeyboardTab *ui;
     OrgClightClightConfKbdInterface *iface;
+
+    RegressionPointModel *ac;
+    RegressionPointModel *bat;
+
+    QtCharts::QLineSeries *acSeries;
+    QtCharts::QLineSeries *batSeries;
+
+    QtCharts::QChart *acChart;
+    QtCharts::QChart *batChart;
 };
 
 #endif //CLIGHTD_GUI_KEYBOARDTAB_H

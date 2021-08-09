@@ -4,22 +4,14 @@
 
 #include "RegressionPointModel.h"
 
-void RegressionPointModel::getData() {
-    beginResetModel();
-    if (type) {
-        dat = iface->acPoints();
-    } else {
-        dat = iface->battPoints();
-    }
-    endResetModel();
-}
 
-RegressionPointModel::RegressionPointModel(int t, QObject *parent):
+RegressionPointModel::RegressionPointModel(int t, QObject *parent, SensorFrames frames):
         QAbstractListModel(parent),
         dat(){
     type = t;
-    iface = new OrgClightClightConfSensorInterface("org.clight.clight", "/org/clight/clight/Conf/Sensor", QDBusConnection::sessionBus(), this);
-    getData();
+    beginResetModel();
+    dat = frames;
+    endResetModel();
 }
 
 int RegressionPointModel::rowCount(const QModelIndex &parent) const {
@@ -65,11 +57,7 @@ bool RegressionPointModel::setData(const QModelIndex &index, const QVariant &val
 }
 
 void RegressionPointModel::updateData() {
-    if (type) {
-        iface->setAcPoints(dat);
-    } else {
-        iface->setBattPoints(dat);
-    }
+    emit dataUpdated(dat);
 }
 
 bool RegressionPointModel::insertRows(int row, int count, const QModelIndex &parent) {
@@ -109,8 +97,4 @@ QList<QPointF> RegressionPointModel::getPoints() {
     }
 
     return list;
-}
-
-OrgClightClightConfSensorInterface *RegressionPointModel::getIface() {
-    return iface;
 }

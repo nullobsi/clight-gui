@@ -10,9 +10,13 @@
 SensorTab::SensorTab(QWidget *parent) :
         QWidget(parent), ui(new Ui::SensorTab) {
     ui->setupUi(this);
+    iface = new OrgClightClightConfSensorInterface("org.clight.clight", "/org/clight/clight/Conf/Sensor", QDBusConnection::sessionBus(), this);
 
-    ac = new RegressionPointModel(1, this);
-    bat = new RegressionPointModel(0, this);
+    ac = new RegressionPointModel(1, this, iface->acPoints());
+    bat = new RegressionPointModel(0, this, iface->battPoints());
+
+    QObject::connect(ac, &RegressionPointModel::dataUpdated, iface, &OrgClightClightConfSensorInterface::setAcPoints);
+    QObject::connect(bat, &RegressionPointModel::dataUpdated, iface, &OrgClightClightConfSensorInterface::setBattPoints);
 
     ui->acPoints->setModel(ac);
     ui->batPoints->setModel(bat);
@@ -73,7 +77,6 @@ SensorTab::SensorTab(QWidget *parent) :
     QObject::connect(ac, &QAbstractItemModel::dataChanged, this, &SensorTab::onChangeAc);
     QObject::connect(bat, &QAbstractItemModel::dataChanged, this, &SensorTab::onChangeBat);
 
-    auto iface = ac->getIface();
     ui->batSamples->setValue(iface->battCaptures());
     ui->acSamples->setValue(iface->acCaptures());
 
