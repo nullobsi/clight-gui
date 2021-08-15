@@ -28,6 +28,10 @@ public:
     ~SensorTab() override;
 
 private:
+    QString serial = QString();
+    QStringList serials;
+
+    QMap<QString, MonitorOverride> overrides;
 
     Ui::SensorTab *ui;
 
@@ -39,6 +43,7 @@ private:
 
     OrgClightClightConfSensorInterface *iface;
     OrgClightClightConfMonitorOverrideInterface *monIface;
+    OrgClightdClightdBacklightInterface *bkIface;
 };
 
 #endif //CLIGHTD_GUI_SENSORTAB_H

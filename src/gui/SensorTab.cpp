@@ -12,6 +12,23 @@ SensorTab::SensorTab(QWidget *parent) :
     ui->setupUi(this);
     iface = new OrgClightClightConfSensorInterface("org.clight.clight", "/org/clight/clight/Conf/Sensor", QDBusConnection::sessionBus(), this);
     monIface = new OrgClightClightConfMonitorOverrideInterface("org.clight.clight", "/org/clight/clight/Conf/MonitorOverride", QDBusConnection::sessionBus(), this);
+    bkIface = new OrgClightdClightdBacklightInterface("org.clightd.clightd", "/org/clightd/clightd/Backlight", QDBusConnection::systemBus(), this);
+
+    // Get a list of all serials
+    serials = QStringList();
+    auto l = bkIface->GetAll("");
+    l.waitForFinished();
+    for (const auto& e : l.value()) {
+        serials.append(e.serial);
+    }
+
+    overrides = QMap<QString, MonitorOverride>();
+    auto r = monIface->List();
+    r.waitForFinished();
+    for (const auto&e : r.value()) {
+        overrides.insert(e.serial, e);
+        ui->overrideComboBox->insertItem(1, e.serial);
+    }
 
 
     // Create models
