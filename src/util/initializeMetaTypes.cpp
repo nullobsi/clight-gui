@@ -11,6 +11,8 @@ void initializeMetaTypes() {
     qDBusRegisterMetaType<GammaSmooth>();
     qDBusRegisterMetaType<BacklightList>();
     qDBusRegisterMetaType<BacklightEntry>();
+    qDBusRegisterMetaType<MonitorOverride>();
+    qDBusRegisterMetaType<MonitorOverrideList>();
 //    qDBusRegisterMetaType<PropertiesStruct>();
 //qDBusRegisterMetaType<PropertiesList>();
 
