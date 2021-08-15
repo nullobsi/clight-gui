@@ -8,6 +8,7 @@
 #include <QWidget>
 #include <QLineSeries>
 #include <QChart>
+#include <QChartView>
 #include "Sensor.h"
 #include "../models/RegressionPointModel.h"
 
@@ -28,6 +29,7 @@ public slots:
     void onChangeAc(const QModelIndex &topLeft, const QModelIndex &bottomRight, const QVector<int> &roles = QVector<int>());
 
 private:
+    QtCharts::QChart *formatChart(QtCharts::QChartView *, QtCharts::QLineSeries *);
     Ui::SensorTab *ui;
 
     RegressionPointModel *ac;
@@ -38,12 +40,6 @@ private:
 
     QtCharts::QChart *acChart;
     QtCharts::QChart *batChart;
-
-    void (* setFramesBat)(SensorFrames);
-    SensorFrames (* getFramesBat)();
-
-    void (* setFramesAc)(SensorFrames);
-    SensorFrames (* getFramesAc)();
 
     OrgClightClightConfSensorInterface *iface;
 };
