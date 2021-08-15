@@ -37,6 +37,8 @@ SensorTab::SensorTab(QWidget *parent) :
     batChart = formatChart(ui->batChart, batSeries);
     ui->acChart->setChart(acChart);
     ui->batChart->setChart(batChart);
+    ui->batChart->setRenderHint(QPainter::Antialiasing);
+    ui->acChart->setRenderHint(QPainter::Antialiasing);
 
     // Update charts when model changes
     QObject::connect(ac, &QAbstractItemModel::dataChanged, this, &SensorTab::onChangeAc);
@@ -45,12 +47,12 @@ SensorTab::SensorTab(QWidget *parent) :
     ui->batSamples->setValue(iface->battCaptures());
     ui->acSamples->setValue(iface->acCaptures());
 
+    // Update dBus on UI
     void (QSpinBox::* qSpinValueChanged)(int) = &QSpinBox::valueChanged;
     QObject::connect(ui->acSamples, qSpinValueChanged, iface, &OrgClightClightConfSensorInterface::setAcCaptures);
     QObject::connect(ui->batSamples, qSpinValueChanged, iface, &OrgClightClightConfSensorInterface::setBattCaptures);
 
-    ui->batChart->setRenderHint(QPainter::Antialiasing);
-    ui->acChart->setRenderHint(QPainter::Antialiasing);
+
 }
 
 SensorTab::~SensorTab() {
