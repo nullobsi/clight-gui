@@ -10,7 +10,10 @@
 #include <QChart>
 #include <QChartView>
 #include "Sensor.h"
+#include "MonitorOverride.h"
+#include "SysBacklight.h"
 #include "../models/RegressionPointModel.h"
+#include "SensorGraph.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class SensorTab; }
@@ -24,24 +27,18 @@ public:
 
     ~SensorTab() override;
 
-public slots:
-    void onChangeBat(const QModelIndex &topLeft, const QModelIndex &bottomRight, const QVector<int> &roles = QVector<int>());
-    void onChangeAc(const QModelIndex &topLeft, const QModelIndex &bottomRight, const QVector<int> &roles = QVector<int>());
-
 private:
-    QtCharts::QChart *formatChart(QtCharts::QChartView *, QtCharts::QLineSeries *);
+
     Ui::SensorTab *ui;
 
     RegressionPointModel *ac;
     RegressionPointModel *bat;
 
-    QtCharts::QLineSeries *acSeries;
-    QtCharts::QLineSeries *batSeries;
-
-    QtCharts::QChart *acChart;
-    QtCharts::QChart *batChart;
+    SensorGraph *acGraph;
+    SensorGraph *batGraph;
 
     OrgClightClightConfSensorInterface *iface;
+    OrgClightClightConfMonitorOverrideInterface *monIface;
 };
 
 #endif //CLIGHTD_GUI_SENSORTAB_H

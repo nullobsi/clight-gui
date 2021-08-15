@@ -9,6 +9,7 @@
 #include <QLineSeries>
 #include "Kbd.h"
 #include "../models/RegressionPointModel.h"
+#include "SensorGraph.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class KeyboardTab; }
@@ -23,8 +24,6 @@ public:
     ~KeyboardTab() override;
 public slots:
     void EnabledChecked(int state);
-    void onChangeBat(const QModelIndex &topLeft, const QModelIndex &bottomRight, const QVector<int> &roles = QVector<int>());
-    void onChangeAc(const QModelIndex &topLeft, const QModelIndex &bottomRight, const QVector<int> &roles = QVector<int>());
 
 private:
     Ui::KeyboardTab *ui;
@@ -33,11 +32,8 @@ private:
     RegressionPointModel *ac;
     RegressionPointModel *bat;
 
-    QtCharts::QLineSeries *acSeries;
-    QtCharts::QLineSeries *batSeries;
-
-    QtCharts::QChart *acChart;
-    QtCharts::QChart *batChart;
+    SensorGraph *acGraph;
+    SensorGraph *batGraph;
 };
 
 #endif //CLIGHTD_GUI_KEYBOARDTAB_H

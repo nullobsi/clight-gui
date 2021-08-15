@@ -35,17 +35,11 @@
     </widget>
    </item>
    <item row="2" column="0">
-    <widget class="QGroupBox" name="groupBox">
+    <widget class="QGroupBox" name="acLayout">
      <property name="title">
       <string>AC</string>
      </property>
      <layout class="QGridLayout" name="gridLayout">
-      <item row="4" column="0">
-       <widget class="QListView" name="acPoints"/>
-      </item>
-      <item row="3" column="0">
-       <widget class="QChartView" name="acChart"/>
-      </item>
       <item row="0" column="0">
        <layout class="QFormLayout" name="formLayout_2">
         <item row="0" column="0">
@@ -77,7 +71,7 @@
     </widget>
    </item>
    <item row="2" column="1">
-    <widget class="QGroupBox" name="groupBox_2">
+    <widget class="QGroupBox" name="batLayout">
      <property name="title">
       <string>Battery</string>
      </property>
@@ -109,24 +103,11 @@
         </item>
        </layout>
       </item>
-      <item row="5" column="0">
-       <widget class="QListView" name="batPoints"/>
-      </item>
-      <item row="4" column="0">
-       <widget class="QChartView" name="batChart"/>
-      </item>
      </layout>
     </widget>
    </item>
   </layout>
  </widget>
- <customwidgets>
-  <customwidget>
-   <class>QChartView</class>
-   <extends>QGraphicsView</extends>
-   <header>QtCharts</header>
-  </customwidget>
- </customwidgets>
  <resources/>
  <connections/>
 </ui>
