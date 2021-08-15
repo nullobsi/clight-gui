@@ -14,8 +14,8 @@
    <string>SensorTab</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
-   <item row="0" column="1">
-    <widget class="QGroupBox" name="groupBox_2">
+   <item row="4" column="1">
+    <widget class="QGroupBox" name="batLayout">
      <property name="title">
       <string>Battery</string>
      </property>
@@ -31,9 +31,9 @@
        </widget>
       </item>
       <item row="0" column="0">
-       <layout class="QFormLayout" name="formLayout_2">
+       <layout class="QFormLayout" name="batFormLayout">
         <item row="0" column="0">
-         <widget class="QLabel" name="label_2">
+         <widget class="QLabel" name="batCapLabel">
           <property name="text">
            <string>Captures</string>
           </property>
@@ -47,8 +47,8 @@
      </layout>
     </widget>
    </item>
-   <item row="0" column="0" rowspan="2">
-    <widget class="QGroupBox" name="groupBox">
+   <item row="4" column="0" rowspan="2">
+    <widget class="QGroupBox" name="acLayout">
      <property name="title">
       <string>AC</string>
      </property>
@@ -64,9 +64,9 @@
        </widget>
       </item>
       <item row="0" column="0">
-       <layout class="QFormLayout" name="formLayout">
+       <layout class="QFormLayout" name="acFormLayout">
         <item row="0" column="0">
-         <widget class="QLabel" name="label">
+         <widget class="QLabel" name="acCapLabel">
           <property name="text">
            <string>Captures</string>
           </property>
@@ -79,6 +79,42 @@
       </item>
      </layout>
     </widget>
+   </item>
+   <item row="1" column="0" colspan="2">
+    <layout class="QHBoxLayout" name="topLayout">
+     <item>
+      <widget class="QToolButton" name="addOverrideBtn">
+       <property name="text">
+        <string>Add</string>
+       </property>
+       <property name="icon">
+        <iconset theme="add"/>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QToolButton" name="rmOverrideBtn">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
+       <property name="text">
+        <string>Remove</string>
+       </property>
+       <property name="icon">
+        <iconset theme="remove"/>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QComboBox" name="overrideComboBox">
+       <item>
+        <property name="text">
+         <string>Default</string>
+        </property>
+       </item>
+      </widget>
+     </item>
+    </layout>
    </item>
   </layout>
  </widget>
