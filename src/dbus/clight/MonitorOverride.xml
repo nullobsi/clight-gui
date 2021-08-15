@@ -1,0 +1,15 @@
+<!DOCTYPE node PUBLIC "-//freedesktop//DTD D-BUS Object Introspection 1.0//EN"
+        "http://www.freedesktop.org/standards/dbus/1.0/introspect.dtd">
+<node>
+    <interface name="org.clight.clight.Conf.MonitorOverride">
+        <method name="List">
+            <arg type="a(sadad)" direction="out"/>
+            <annotation name="org.qtproject.QtDBus.QtTypeName.Out1" value="MonitorOverrideList"/>
+        </method>
+        <method name="Set">
+            <arg type="s" direction="in"/>
+            <arg type="ad" direction="in"/>
+            <arg type="ad" direction="in"/>
+        </method>
+    </interface>
+</node>
