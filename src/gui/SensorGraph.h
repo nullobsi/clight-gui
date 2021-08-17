@@ -28,6 +28,7 @@ public:
 
 public slots:
     void onDatChange(const QModelIndex &topLeft, const QModelIndex &bottomRight, const QVector<int> &roles = QVector<int>());
+    void onDatReset();
 
 private:
     QtCharts::QLineSeries *series;

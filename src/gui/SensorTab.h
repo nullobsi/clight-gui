@@ -14,6 +14,7 @@
 #include "SysBacklight.h"
 #include "../models/RegressionPointModel.h"
 #include "SensorGraph.h"
+#include "AddOverrideDialog.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class SensorTab; }
@@ -27,13 +28,27 @@ public:
 
     ~SensorTab() override;
 
+public slots:
+    void addBtnClicked();
+    void rmBtnClicked();
+    void serialChanged(int index);
+
+    void acPointsUpdated(QList<double> points);
+    void batPointsUpdated(QList<double> points);
+
+    void dialogFinished(int code);
+
 private:
     QString serial = QString();
+    int boxIndex = 0;
+
     QStringList serials;
 
     QMap<QString, MonitorOverride> overrides;
 
     Ui::SensorTab *ui;
+
+    AddOverrideDialog *dialog = nullptr;
 
     RegressionPointModel *ac;
     RegressionPointModel *bat;

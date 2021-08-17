@@ -60,9 +60,13 @@ SensorGraph::SensorGraph(QWidget *parent, QString yAxisName, RegressionPointMode
 
     // connect data changed
     QObject::connect(model, &QAbstractItemModel::dataChanged, this, &SensorGraph::onDatChange);
-
+    QObject::connect(model, &QAbstractItemModel::modelReset, this, &SensorGraph::onDatReset);
 }
 
 void SensorGraph::onDatChange(const QModelIndex &topLeft, const QModelIndex &bottomRight, const QVector<int> &roles) {
+    series->replace(model->getPoints());
+}
+
+void SensorGraph::onDatReset() {
     series->replace(model->getPoints());
 }

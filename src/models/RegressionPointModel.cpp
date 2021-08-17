@@ -4,13 +4,15 @@
 
 #include "RegressionPointModel.h"
 
+#include <utility>
+
 
 RegressionPointModel::RegressionPointModel(int t, QObject *parent, SensorFrames frames):
         QAbstractListModel(parent),
         dat(){
     type = t;
     beginResetModel();
-    dat = frames;
+    dat = std::move(frames);
     endResetModel();
 }
 
@@ -97,4 +99,14 @@ QList<QPointF> RegressionPointModel::getPoints() {
     }
 
     return list;
+}
+
+QList<double> RegressionPointModel::getData() {
+    return dat;
+}
+
+void RegressionPointModel::resetData(const SensorFrames &f) {
+    beginResetModel();
+    dat = f;
+    endResetModel();
 }

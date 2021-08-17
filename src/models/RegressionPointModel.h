@@ -29,6 +29,8 @@ public:
     bool removeRows(int row, int count, const QModelIndex &parent = QModelIndex()) override;
 
     QList<QPointF> getPoints();
+    QList<double> getData();
+    void resetData(const SensorFrames &f);
 
 signals:
     void dataUpdated(SensorFrames);
