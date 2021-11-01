@@ -8,8 +8,13 @@
 #include <QWidget>
 #include <QLineSeries>
 #include <QChart>
+#include <QChartView>
 #include "Sensor.h"
+#include "MonitorOverride.h"
+#include "SysBacklight.h"
 #include "../models/RegressionPointModel.h"
+#include "SensorGraph.h"
+#include "AddOverrideDialog.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class SensorTab; }
@@ -24,28 +29,36 @@ public:
     ~SensorTab() override;
 
 public slots:
-    void onChangeBat(const QModelIndex &topLeft, const QModelIndex &bottomRight, const QVector<int> &roles = QVector<int>());
-    void onChangeAc(const QModelIndex &topLeft, const QModelIndex &bottomRight, const QVector<int> &roles = QVector<int>());
+    void addBtnClicked();
+    void rmBtnClicked();
+    void serialChanged(int index);
+
+    void acPointsUpdated(QList<double> points);
+    void batPointsUpdated(QList<double> points);
+
+    void dialogFinished(int code);
 
 private:
+    QString serial = QString();
+    int boxIndex = 0;
+
+    QStringList serials;
+
+    QMap<QString, MonitorOverride> overrides;
+
     Ui::SensorTab *ui;
+
+    AddOverrideDialog *dialog = nullptr;
 
     RegressionPointModel *ac;
     RegressionPointModel *bat;
 
-    QtCharts::QLineSeries *acSeries;
-    QtCharts::QLineSeries *batSeries;
-
-    QtCharts::QChart *acChart;
-    QtCharts::QChart *batChart;
-
-    void (* setFramesBat)(SensorFrames);
-    SensorFrames (* getFramesBat)();
-
-    void (* setFramesAc)(SensorFrames);
-    SensorFrames (* getFramesAc)();
+    SensorGraph *acGraph;
+    SensorGraph *batGraph;
 
     OrgClightClightConfSensorInterface *iface;
+    OrgClightClightConfMonitorOverrideInterface *monIface;
+    OrgClightdClightdBacklightInterface *bkIface;
 };
 
 #endif //CLIGHTD_GUI_SENSORTAB_H

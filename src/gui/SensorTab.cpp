@@ -5,87 +5,68 @@
 // You may need to build the project (run Qt uic code generator) to get "ui_SensorTab.h" resolved
 
 #include "SensorTab.h"
+
+#include <utility>
 #include "ui_SensorTab.h"
 
 SensorTab::SensorTab(QWidget *parent) :
         QWidget(parent), ui(new Ui::SensorTab) {
     ui->setupUi(this);
     iface = new OrgClightClightConfSensorInterface("org.clight.clight", "/org/clight/clight/Conf/Sensor", QDBusConnection::sessionBus(), this);
+    monIface = new OrgClightClightConfMonitorOverrideInterface("org.clight.clight", "/org/clight/clight/Conf/MonitorOverride", QDBusConnection::sessionBus(), this);
+    bkIface = new OrgClightdClightdBacklightInterface("org.clightd.clightd", "/org/clightd/clightd/Backlight", QDBusConnection::systemBus(), this);
 
+    // Get a list of all serials
+    overrides = QMap<QString, MonitorOverride>();
+    auto r = monIface->List();
+    r.waitForFinished();
+    for (const auto&e : r.value()) {
+        overrides.insert(e.serial, e);
+        ui->overrideComboBox->insertItem(1, e.serial);
+    }
+
+    serials = QStringList();
+    auto l = bkIface->GetAll("");
+    l.waitForFinished();
+    for (const auto& e : l.value()) {
+        if (!overrides.contains(e.serial))
+            serials.append(e.serial);
+    }
+
+    if (serials.empty()) {
+        ui->addOverrideBtn->setDisabled(true);
+    }
+
+
+    // Create models
     ac = new RegressionPointModel(1, this, iface->acPoints());
     bat = new RegressionPointModel(0, this, iface->battPoints());
 
-    QObject::connect(ac, &RegressionPointModel::dataUpdated, iface, &OrgClightClightConfSensorInterface::setAcPoints);
-    QObject::connect(bat, &RegressionPointModel::dataUpdated, iface, &OrgClightClightConfSensorInterface::setBattPoints);
+    // Create charts
+    acGraph = new SensorGraph(this, tr("Screen Brightness"), ac);
+    batGraph = new SensorGraph(this, tr("Screen Brightness"), bat);
+    ui->acLayout->layout()->addWidget(acGraph);
+    ui->batLayout->layout()->addWidget(batGraph);
 
-    ui->acPoints->setModel(ac);
-    ui->batPoints->setModel(bat);
-
-    acSeries = new QLineSeries(this);
-    batSeries = new QLineSeries(this);
-
-    acSeries->replace(ac->getPoints());
-    batSeries->replace(bat->getPoints());
-
-    auto xAxis = new QValueAxis();
-    xAxis->setRange(0, 100);
-    xAxis->setTickCount(11);
-    xAxis->setLabelFormat("%.0f%%");
-    xAxis->setTitleText(tr("Ambient Brightness"));
-
-    auto yAxis = new QValueAxis();
-    yAxis->setRange(0, 100);
-    yAxis->setTickCount(11);
-    yAxis->setLabelFormat("%.0f%%");
-    yAxis->setTitleText(tr("Screen Brightness"));
-
-    acChart = new QChart();
-    acChart->legend()->hide();
-    acChart->addSeries(acSeries);
-
-    acChart->addAxis(xAxis, Qt::AlignBottom);
-    acChart->addAxis(yAxis, Qt::AlignLeft);
-
-    acSeries->attachAxis(xAxis);
-    acSeries->attachAxis(yAxis);
-    auto xAxis1 = new QValueAxis();
-    xAxis1->setRange(0, 100);
-    xAxis1->setTickCount(11);
-    xAxis1->setLabelFormat("%.0f%%");
-    xAxis1->setTitleText(tr("Ambient Brightness"));
-
-    auto yAxis1 = new QValueAxis();
-    yAxis1->setRange(0, 100);
-    yAxis1->setTickCount(11);
-    yAxis1->setLabelFormat("%.0f%%");
-    yAxis1->setTitleText(tr("Screen Brightness"));
-
-    batChart = new QChart();
-    batChart->legend()->hide();
-
-    batChart->addSeries(batSeries);
-
-    batChart->addAxis(xAxis1, Qt::AlignBottom);
-    batChart->addAxis(yAxis1, Qt::AlignLeft);
-
-    batSeries->attachAxis(xAxis1);
-    batSeries->attachAxis(yAxis1);
-
-    ui->acChart->setChart(acChart);
-    ui->batChart->setChart(batChart);
-
-    QObject::connect(ac, &QAbstractItemModel::dataChanged, this, &SensorTab::onChangeAc);
-    QObject::connect(bat, &QAbstractItemModel::dataChanged, this, &SensorTab::onChangeBat);
+    // Connect data changed
+    QObject::connect(ac, &RegressionPointModel::dataUpdated, this, &SensorTab::acPointsUpdated);
+    QObject::connect(bat, &RegressionPointModel::dataUpdated, this, &SensorTab::batPointsUpdated);
 
     ui->batSamples->setValue(iface->battCaptures());
     ui->acSamples->setValue(iface->acCaptures());
 
+    // Update dBus on UI
     void (QSpinBox::* qSpinValueChanged)(int) = &QSpinBox::valueChanged;
     QObject::connect(ui->acSamples, qSpinValueChanged, iface, &OrgClightClightConfSensorInterface::setAcCaptures);
     QObject::connect(ui->batSamples, qSpinValueChanged, iface, &OrgClightClightConfSensorInterface::setBattCaptures);
 
-    ui->batChart->setRenderHint(QPainter::Antialiasing);
-    ui->acChart->setRenderHint(QPainter::Antialiasing);
+    // Buttons
+    QObject::connect(ui->addOverrideBtn, &QToolButton::clicked, this, &SensorTab::addBtnClicked);
+    QObject::connect(ui->rmOverrideBtn, &QToolButton::clicked, this, &SensorTab::rmBtnClicked);
+
+    // Dropdown
+    void (QComboBox::* qComboIndexChanged)(int) = &QComboBox::currentIndexChanged;
+    QObject::connect(ui->overrideComboBox, qComboIndexChanged, this, &SensorTab::serialChanged);
 }
 
 SensorTab::~SensorTab() {
@@ -93,20 +74,109 @@ SensorTab::~SensorTab() {
 
     delete ac;
     delete bat;
-
-    delete acSeries;
-    delete batSeries;
-
-    delete acChart;
-    delete batChart;
 }
 
-void SensorTab::onChangeBat(const QModelIndex &topLeft, const QModelIndex &bottomRight, const QVector<int> &roles) {
-    qDebug() << "bat changed";
-    batSeries->replace(bat->getPoints());
+void SensorTab::addBtnClicked() {
+    if (dialog) return;
+    if (serials.empty()) return;
+
+    dialog = new AddOverrideDialog(serials, this);
+    QObject::connect(dialog, &QDialog::finished, this, &SensorTab::dialogFinished);
+    dialog->open();
 }
 
-void SensorTab::onChangeAc(const QModelIndex &topLeft, const QModelIndex &bottomRight, const QVector<int> &roles) {
-    qDebug() << "ac changed";
-    acSeries->replace(ac->getPoints());
+void SensorTab::rmBtnClicked() {
+    if (!serial.isEmpty()) {
+        auto curSerial = ui->overrideComboBox->currentText();
+        monIface->Set(curSerial, SensorFrames(), SensorFrames());
+        ui->overrideComboBox->removeItem(boxIndex);
+
+        boxIndex = 0;
+        overrides.remove(curSerial);
+
+        serials.append(curSerial);
+
+        ui->addOverrideBtn->setDisabled(false);
+
+        serial = QString();
+        ui->overrideComboBox->setCurrentIndex(0);
+    }
+}
+
+void SensorTab::serialChanged(int index) {
+    auto nSerial = ui->overrideComboBox->itemText(index);
+    boxIndex = index;
+    // the disconnection is probably redundant
+    QObject::disconnect(ac, &RegressionPointModel::dataUpdated, this, &SensorTab::acPointsUpdated);
+    QObject::disconnect(bat, &RegressionPointModel::dataUpdated, this, &SensorTab::batPointsUpdated);
+
+    if (nSerial == "Default") {
+        serial = QString();
+        ui->rmOverrideBtn->setDisabled(true);
+        ac->resetData(iface->acPoints());
+        bat->resetData(iface->battPoints());
+    } else {
+        serial = nSerial;
+        ui->rmOverrideBtn->setDisabled(false);
+
+        auto override = overrides[serial];
+        ac->resetData(override.ac);
+        bat->resetData(override.bat);
+    }
+
+    QObject::connect(ac, &RegressionPointModel::dataUpdated, this, &SensorTab::acPointsUpdated);
+    QObject::connect(bat, &RegressionPointModel::dataUpdated, this, &SensorTab::batPointsUpdated);
+
+    if (serials.empty()) ui->addOverrideBtn->setDisabled(true);
+}
+
+void SensorTab::acPointsUpdated(QList<double> points) {
+    if(serial.isEmpty()) {
+        iface->setAcPoints(std::move(points));
+    } else {
+        MonitorOverride nOverride {
+            .serial =  serial,
+            .ac = points,
+            .bat = bat->getData(),
+        };
+        monIface->Set(serial, points, nOverride.bat);
+        overrides.insert(serial, nOverride);
+    }
+}
+
+void SensorTab::batPointsUpdated(QList<double> points) {
+    if (serial.isEmpty()) {
+        iface->setBattPoints(std::move(points));
+    } else {
+        MonitorOverride nOverride {
+                .serial =  serial,
+                .ac = ac->getData(),
+                .bat = points,
+        };
+        monIface->Set(serial, nOverride.ac, points);
+        overrides.insert(serial, nOverride);
+    }
+}
+
+void SensorTab::dialogFinished(int code) {
+    if (code == 0) {
+        dialog->deleteLater();
+        dialog = nullptr;
+        return;
+    }
+    serial = dialog->getSelectedSerial();
+    serials.removeAll(serial);
+
+    MonitorOverride nOverride {
+            .serial =  serial,
+            .ac = ac->getData(),
+            .bat = bat->getData(),
+    };
+    monIface->Set(serial, nOverride.ac, nOverride.bat);
+    overrides.insert(serial, nOverride);
+    ui->overrideComboBox->insertItem(1, serial);
+    ui->overrideComboBox->setCurrentIndex(1);
+
+    dialog->deleteLater();
+    dialog = nullptr;
 }
