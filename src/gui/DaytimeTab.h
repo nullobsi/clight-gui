@@ -24,6 +24,8 @@ public slots:
 
     void sunsetDel();
     void sunriseDel();
+
+    void locationChanged(double v);
 private:
     Ui::DaytimeTab *ui;
     OrgClightClightConfDaytimeInterface *iface;

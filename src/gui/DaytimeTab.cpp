@@ -23,6 +23,10 @@ DaytimeTab::DaytimeTab(QWidget *parent) :
 
     QObject::connect(ui->delSunset, &QPushButton::clicked, this, &DaytimeTab::sunsetDel);
     QObject::connect(ui->delSunrise, &QPushButton::clicked, this, &DaytimeTab::sunriseDel);
+
+    void (QDoubleSpinBox::* qDoubleSpinValueChanged)(double) = &QDoubleSpinBox::valueChanged;
+    QObject::connect(ui->lat, qDoubleSpinValueChanged, this, &DaytimeTab::locationChanged);
+    QObject::connect(ui->lon, qDoubleSpinValueChanged, this, &DaytimeTab::locationChanged);
 }
 
 DaytimeTab::~DaytimeTab() {
@@ -44,4 +48,11 @@ void DaytimeTab::sunsetDel() {
 
 void DaytimeTab::sunriseDel() {
     iface->setSunrise("");
+}
+
+void DaytimeTab::locationChanged(double v) {
+    iface->setLocation(Coordinate {
+        .lat = ui->lat->value(),
+        .lon = ui->lon->value()
+    });
 }
