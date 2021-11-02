@@ -11,7 +11,7 @@ Please make sure you are using the latest versions of Clight (4.4) and Clightd (
 - Minimize to tray by closing window
 
 ## Building
-Requires cmake, Qt5/6, and Qt charts. The DBus C++ interfaces are generated based on the XML files for Clight.
+Requires cmake, Qt5/6, QtXml, and QtCharts. The DBus C++ interfaces are generated based on the XML files for Clight.
 
 ```shell
 cd clight-gui

@@ -6,15 +6,31 @@
 
 #include "MainWindow.h"
 #include "ui_MainWindow.h"
+#include <QtXml/QDomDocument>
+#include <QtXml/QDomElement>
 
+#define CLIGHT "org.clight.clight"
 MainWindow::MainWindow(QWidget *parent) :
         QMainWindow(parent),
         ui(new Ui::MainWindow) {
     // connect DBus
-    clightConf = new OrgClightClightConfInterface("org.clight.clight", "/org/clight/clight/Conf", QDBusConnection::sessionBus(), this);
-    clight = new OrgClightClightInterface("org.clight.clight", "/org/clight/clight", QDBusConnection::sessionBus(), this);
+    clightConf = new OrgClightClightConfInterface(CLIGHT, "/org/clight/clight/Conf", QDBusConnection::sessionBus(), this);
+    clight = new OrgClightClightInterface(CLIGHT, "/org/clight/clight", QDBusConnection::sessionBus(), this);
     ui->setupUi(this);
-
+    QDBusMessage introspectCall = QDBusMessage::createMethodCall(CLIGHT, "/org/clight/clight/Conf", "org.freedesktop.DBus.Introspectable", "Introspect");
+    QDBusReply<QString> xml = QDBusConnection::sessionBus().call(introspectCall);
+    QDomDocument doc;
+    doc.setContent(xml);
+    QDomElement node = doc.documentElement();
+    QDomElement child = node.firstChildElement();
+    QSet<QString> enabledModules;
+    while (!child.isNull()) {
+        if (child.tagName() == "node") {
+            enabledModules.insert(child.attribute("name"));
+            qDebug() << child.attribute("name");
+        }
+        child = child.nextSiblingElement();
+    }
     // load tabs
     tab1 = new InfoTab(this);
     tab2 = new BacklightTab(this);
@@ -24,15 +40,45 @@ MainWindow::MainWindow(QWidget *parent) :
     tab6 = new KeyboardTab(this);
     tab7 = new ScreenTab(this);
     tab8 = new DaytimeTab(this);
-
+    int tabN;
     ui->tabWidget->addTab(tab1, tr("Info"));
-    ui->tabWidget->addTab(tab2, tr("Backlight"));
-    ui->tabWidget->addTab(tab3, tr("Dimmer"));
-    ui->tabWidget->addTab(tab4, tr("Gamma"));
-    ui->tabWidget->addTab(tab5, tr("Sensor"));
-    ui->tabWidget->addTab(tab6, tr("Keyboard"));
-    ui->tabWidget->addTab(tab7, tr("Screen Comp."));
-    ui->tabWidget->addTab(tab8, tr("Daytime"));
+
+    tabN = ui->tabWidget->addTab(tab2, tr("Backlight"));
+    if (!enabledModules.contains("Backlight")) {
+        ui->tabWidget->setTabEnabled(tabN, false);
+    }
+
+    tabN = ui->tabWidget->addTab(tab3, tr("Dimmer"));
+    if (!enabledModules.contains("Dimmer")){
+        ui->tabWidget->setTabEnabled(tabN, false);
+    }
+
+    tabN = ui->tabWidget->addTab(tab4, tr("Gamma"));
+    if (!enabledModules.contains("Gamma")) {
+        ui->tabWidget->setTabEnabled(tabN, false);
+    }
+
+    tabN = ui->tabWidget->addTab(tab5, tr("Sensor"));
+    if (!enabledModules.contains("Sensor")) {
+        ui->tabWidget->setTabEnabled(tabN, false);
+    }
+
+    tabN = ui->tabWidget->addTab(tab6, tr("Keyboard"));
+    if (!enabledModules.contains("Kbd")) {
+        ui->tabWidget->setTabEnabled(tabN, false);
+    }
+
+    tabN = ui->tabWidget->addTab(tab7, tr("Screen Comp."));
+    if (!enabledModules.contains("Screen")) {
+        ui->tabWidget->setTabEnabled(tabN, false);
+    }
+
+    tabN = ui->tabWidget->addTab(tab8, tr("Daytime"));
+    if (!enabledModules.contains("Daytime")) {
+        ui->tabWidget->setTabEnabled(tabN, false);
+    }
+
+
 
     tab4->UpdateGamma(clight->temp());
 
