@@ -27,7 +27,6 @@ MainWindow::MainWindow(QWidget *parent) :
     while (!child.isNull()) {
         if (child.tagName() == "node") {
             enabledModules.insert(child.attribute("name"));
-            qDebug() << child.attribute("name");
         }
         child = child.nextSiblingElement();
     }
