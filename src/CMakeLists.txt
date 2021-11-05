@@ -1,4 +1,5 @@
 cmake_minimum_required(VERSION 3.0)
+set(CMP0071 NEW)
 
 if (NOT DEFINED CMAKE_INSTALL_PREFIX)
     set (CMAKE_INSTALL_PREFIX "/usr" CACHE PATH "Install to /usr" FORCE)
