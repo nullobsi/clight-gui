@@ -20,6 +20,7 @@ jobs:
         os: [ubuntu-18.04,ubuntu-20.04]
         qt_ver: [5.9.9,5.12.10,5.15.2]
         qt_arch: [gcc_64]
+        cmake_build_type: [Release]
     steps:
       - name: Install Qt
         uses: jurplel/install-qt-action@v2.13.0
@@ -36,8 +37,8 @@ jobs:
         with:
           fetch-depth: 1
 
+      - name: Configure Cmake
+        run: cmake -B build -S src -DCMAKE_BUILD_TYPE=${{ matrix.cmake_build_type }}
+
       - name: Build
-        run: |
-          cd src
-          cmake -B build
-          make -C build
+        run: make -C build
