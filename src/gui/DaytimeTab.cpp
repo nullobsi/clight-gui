@@ -13,20 +13,27 @@ DaytimeTab::DaytimeTab(QWidget *parent) :
     iface = new OrgClightClightConfDaytimeInterface("org.clight.clight", "/org/clight/clight/Conf/Daytime", QDBusConnection::sessionBus(), this);
     ui->sunset->setDateTime(QDateTime::fromString(iface->sunset(), "H:mm"));
     ui->sunrise->setDateTime(QDateTime::fromString(iface->sunrise(), "H:mm"));
+
     auto loc = iface->location();
     ui->lat->setValue(loc.lat);
     ui->lon->setValue(loc.lon);
     ui->eventDuration->setValue(iface->eventDuration());
 
+    // connect sunset/rise overrides
     QObject::connect(ui->sunset, &QTimeEdit::userTimeChanged, this, &DaytimeTab::sunsetChanged);
     QObject::connect(ui->sunrise, &QTimeEdit::userTimeChanged, this, &DaytimeTab::sunriseChanged);
 
     QObject::connect(ui->delSunset, &QPushButton::clicked, this, &DaytimeTab::sunsetDel);
     QObject::connect(ui->delSunrise, &QPushButton::clicked, this, &DaytimeTab::sunriseDel);
 
+    // Connect location override
     void (QDoubleSpinBox::* qDoubleSpinValueChanged)(double) = &QDoubleSpinBox::valueChanged;
     QObject::connect(ui->lat, qDoubleSpinValueChanged, this, &DaytimeTab::locationChanged);
     QObject::connect(ui->lon, qDoubleSpinValueChanged, this, &DaytimeTab::locationChanged);
+
+    // connect event duration override
+    void (QSpinBox::* qSpinValueChanged)(int) = &QSpinBox::valueChanged;
+    QObject::connect(ui->eventDuration, qSpinValueChanged, iface, &OrgClightClightConfDaytimeInterface::setEventDuration);
 }
 
 DaytimeTab::~DaytimeTab() {
