@@ -17,7 +17,7 @@ signals:
     void WindowOpenRequest();
 
 public slots:
-    Q_NOREPLY [[maybe_unused]] void ShowWindow();
+    Q_NOREPLY void ShowWindow();
 };
 
 
