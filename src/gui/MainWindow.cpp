@@ -145,18 +145,7 @@ MainWindow::MainWindow(QWidget *parent) :
     sunset = clight->sunset();
     nextEvent = clight->nextEvent();
     UpdateTray();
-
-    if (QSettings().value("light-icons", false).toBool()) {
-        lowBrightness = QIcon::fromTheme("brightness-low-light");
-        highBrightness = QIcon::fromTheme("brightness-high-light");
-        trayUi->actionDecBl->setIcon(QIcon::fromTheme("brightness-minus-light"));
-        trayUi->actionBlInc->setIcon(QIcon::fromTheme("brightness-plus-light"));
-        if (clight->blPct() < 0.5) {
-            trayIcon->setIcon(lowBrightness);
-        } else {
-            trayIcon->setIcon(highBrightness);
-        }
-    }
+    TrayIconChanged(QSettings().value("light-icons",false).toBool());
 }
 
 MainWindow::~MainWindow() {
@@ -268,17 +257,18 @@ void MainWindow::UpdateTray() {
 void MainWindow::TrayIconChanged(bool lightIcons) {
     QSettings settings;
     settings.setValue("light-icons", lightIcons);
-    QStringList search = QIcon::fallbackSearchPaths();
     if (lightIcons) {
-        search.replace(0, ":/icons/light");
+        lowBrightness = QIcon::fromTheme("brightness-low-light");
+        highBrightness = QIcon::fromTheme("brightness-high-light");
+        trayUi->actionDecBl->setIcon(QIcon::fromTheme("brightness-minus-light"));
+        trayUi->actionBlInc->setIcon(QIcon::fromTheme("brightness-plus-light"));
     } else {
-        search.replace(0, ":/icons/dark");
+        lowBrightness = QIcon::fromTheme("brightness-low-dark");
+        highBrightness = QIcon::fromTheme("brightness-high-dark");
+        trayUi->actionDecBl->setIcon(QIcon::fromTheme("brightness-minus-dark"));
+        trayUi->actionBlInc->setIcon(QIcon::fromTheme("brightness-plus-dark"));
     }
-    QIcon::setFallbackSearchPaths(search);
-    highBrightness = QIcon::fromTheme("brightness-high");
-    lowBrightness = QIcon::fromTheme("brightness-low");
-    trayUi->actionDecBl->setIcon(QIcon::fromTheme("brightness-minus"));
-    trayUi->actionBlInc->setIcon(QIcon::fromTheme("brightness-plus"));
+
     if (clight->blPct() < 0.5) {
         trayIcon->setIcon(lowBrightness);
     } else {
