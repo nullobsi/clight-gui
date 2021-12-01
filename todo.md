@@ -1,4 +1,5 @@
 # TODO
 - org.clight.clight.Conf ResumeDelay
 - restore on edit
-- monitor overrides
+- sunset/sunrise offset (Daytime)
+- transfixedenter/exit (Dimmer)

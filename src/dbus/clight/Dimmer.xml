@@ -23,6 +23,12 @@
         <property name="TransDurationExit" type="i" access="readwrite">
             <annotation name="org.freedesktop.DBus.Property.EmitsChangedSignal" value="false"/>
         </property>
+        <property name="TransFixedEnter" type="i" access="readwrite">
+            <annotation name="org.freedesktop.DBus.Property.EmitsChangedSignal" value="false"/>
+        </property>
+        <property name="TransFixedExit" type="i" access="readwrite">
+            <annotation name="org.freedesktop.DBus.Property.EmitsChangedSignal" value="false"/>
+        </property>
         <property name="AcTimeout" type="i" access="readwrite">
             <annotation name="org.freedesktop.DBus.Property.EmitsChangedSignal" value="false"/>
         </property>

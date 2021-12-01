@@ -2,6 +2,9 @@
         "http://www.freedesktop.org/standards/dbus/1.0/introspect.dtd">
 <node>
     <interface name="org.clight.clight.Conf.Backlight">
+        <property name="TimeoutsInMs" type="b" access="read">
+            <annotation name="org.freedesktop.DBus.Property.EmitsChangedSignal" value="const"/>
+        </property>
         <property name="NoAutoCalib" type="b" access="readwrite">
             <annotation name="org.freedesktop.DBus.Property.EmitsChangedSignal" value="false"/>
         </property>
@@ -9,9 +12,6 @@
             <annotation name="org.freedesktop.DBus.Property.EmitsChangedSignal" value="false"/>
         </property>
         <property name="CaptureOnLidOpened" type="b" access="readwrite">
-            <annotation name="org.freedesktop.DBus.Property.EmitsChangedSignal" value="false"/>
-        </property>
-        <property name="BacklightSyspath" type="s" access="readwrite">
             <annotation name="org.freedesktop.DBus.Property.EmitsChangedSignal" value="false"/>
         </property>
         <property name="NoSmooth" type="b" access="readwrite">
@@ -42,6 +42,9 @@
             <annotation name="org.freedesktop.DBus.Property.EmitsChangedSignal" value="false"/>
         </property>
         <property name="BattEventTimeout" type="i" access="readwrite">
+            <annotation name="org.freedesktop.DBus.Property.EmitsChangedSignal" value="false"/>
+        </property>
+        <property name="RestoreOnExit" type="b" access="readwrite">
             <annotation name="org.freedesktop.DBus.Property.EmitsChangedSignal" value="false"/>
         </property>
     </interface>

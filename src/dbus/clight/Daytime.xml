@@ -15,5 +15,11 @@
         <property name="EventDuration" type="i" access="readwrite">
             <annotation name="org.freedesktop.DBus.Property.EmitsChangedSignal" value="false"/>
         </property>
+        <property name="SunriseOffset" type="i" access="readwrite">
+            <annotation name="org.freedesktop.DBus.Property.EmitsChangedSignal" value="false"/>
+        </property>
+        <property name="SunsetOffset" type="i" access="readwrite">
+            <annotation name="org.freedesktop.DBus.Property.EmitsChangedSignal" value="false"/>
+        </property>
     </interface>
 </node>
