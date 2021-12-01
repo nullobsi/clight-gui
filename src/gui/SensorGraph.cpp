@@ -37,7 +37,7 @@ SensorGraph::SensorGraph(QWidget *parent, QString yAxisName, RegressionPointMode
     xAxis->setRange(0, 100);
     xAxis->setTickCount(11);
     xAxis->setLabelFormat("%.0f%%");
-    xAxis->setTitleText(yAxisName);
+    xAxis->setTitleText(tr("Ambient Brightness"));
 
     auto yAxis = new QValueAxis(this);
     yAxis->setRange(0, 100);
