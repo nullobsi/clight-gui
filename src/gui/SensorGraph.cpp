@@ -61,6 +61,10 @@ SensorGraph::SensorGraph(QWidget *parent, QString yAxisName, RegressionPointMode
     // connect data changed
     QObject::connect(model, &QAbstractItemModel::dataChanged, this, &SensorGraph::onDatChange);
     QObject::connect(model, &QAbstractItemModel::modelReset, this, &SensorGraph::onDatReset);
+
+    // connect buttons
+    QObject::connect(ui->addPoint, &QToolButton::clicked, this, &SensorGraph::addBtnClicked);
+    QObject::connect(ui->removePoint, &QToolButton::clicked, this, &SensorGraph::rmBtnClicked);
 }
 
 void SensorGraph::onDatChange(const QModelIndex &topLeft, const QModelIndex &bottomRight, const QVector<int> &roles) {
@@ -68,5 +72,21 @@ void SensorGraph::onDatChange(const QModelIndex &topLeft, const QModelIndex &bot
 }
 
 void SensorGraph::onDatReset() {
+    series->replace(model->getPoints());
+}
+
+void SensorGraph::addBtnClicked() {
+    auto selection = ui->points->selectionModel()->selectedIndexes();
+    int r = 0;
+    if (!selection.empty()) r = selection.first().row();
+    model->insertRow(r);
+    series->replace(model->getPoints());
+}
+
+void SensorGraph::rmBtnClicked() {
+    auto selection = ui->points->selectionModel()->selectedIndexes();
+    int r = 0;
+    if (!selection.empty()) r = selection.first().row();
+    model->removeRow(r);
     series->replace(model->getPoints());
 }

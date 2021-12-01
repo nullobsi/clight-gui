@@ -30,6 +30,8 @@ public slots:
     void onDatChange(const QModelIndex &topLeft, const QModelIndex &bottomRight, const QVector<int> &roles = QVector<int>());
     void onDatReset();
 
+    void addBtnClicked();
+    void rmBtnClicked();
 private:
     QtCharts::QLineSeries *series;
     QtCharts::QChart *chart;

@@ -66,7 +66,7 @@ bool RegressionPointModel::insertRows(int row, int count, const QModelIndex &par
     beginInsertRows(parent, row, row + count - 1);
 
     for (int i = 0; i < count; i++) {
-        dat.insert(i, 0.5);
+        dat.insert(row + i, 0.5);
     }
     updateData();
 
@@ -79,7 +79,7 @@ bool RegressionPointModel::removeRows(int row, int count, const QModelIndex &par
     beginRemoveRows(parent, row, row + count - 1);
 
     for (int i = 0; i < count; i ++) {
-        dat.removeAt(row);
+        dat.removeAt(row + i);
     }
 
     updateData();
