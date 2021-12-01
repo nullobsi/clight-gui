@@ -43,8 +43,8 @@ SensorTab::SensorTab(QWidget *parent) :
     bat = new RegressionPointModel(0, this, iface->battPoints());
 
     // Create charts
-    acGraph = new SensorGraph(this, tr("Screen Brightness"), ac);
-    batGraph = new SensorGraph(this, tr("Screen Brightness"), bat);
+    acGraph = new SensorGraph(this, tr("Display Brightness"), ac);
+    batGraph = new SensorGraph(this, tr("Display Brightness"), bat);
     ui->acLayout->layout()->addWidget(acGraph);
     ui->batLayout->layout()->addWidget(batGraph);
 
