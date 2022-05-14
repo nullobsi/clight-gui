@@ -18,7 +18,11 @@ SensorGraph::~SensorGraph() {
     delete ui;
 }
 
+// See issue #26
+#if QT_VERSION <= QT_VERSION_CHECK(6, 1, 0)
 using namespace QtCharts;
+#endif
+
 SensorGraph::SensorGraph(QWidget *parent, QString yAxisName, RegressionPointModel *m):
         QWidget(parent), ui(new Ui::SensorGraph) {
     model = m;

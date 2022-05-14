@@ -17,6 +17,11 @@ QT_BEGIN_NAMESPACE
 namespace Ui { class SensorGraph; }
 QT_END_NAMESPACE
 
+// See issue #26
+#if QT_VERSION <= QT_VERSION_CHECK(6, 1, 0)
+using namespace QtCharts;
+#endif
+
 class SensorGraph : public QWidget {
 Q_OBJECT
 
@@ -33,8 +38,8 @@ public slots:
     void addBtnClicked();
     void rmBtnClicked();
 private:
-    QtCharts::QLineSeries *series;
-    QtCharts::QChart *chart;
+    QLineSeries *series;
+    QChart *chart;
     RegressionPointModel *model;
 
     Ui::SensorGraph *ui;
