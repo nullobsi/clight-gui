@@ -172,14 +172,14 @@ void MainWindow::PropertyChanged(QString interface, QVariantMap propertiesUpdate
                 trayUi->actionInhibit->setChecked(v.toBool());
             } else if (p == "BlPct") {
                 double n = v.toDouble();
-                trayUi->menuBacklight->setTitle(tr("Brightness %1%%").arg((int)(n*100)));
+                trayUi->menuBacklight->setTitle(tr("Brightness %1\%").arg((int)(n*100)));
                 if (n < 0.5) {
                     trayIcon->setIcon(lowBrightness);
                 } else {
                     trayIcon->setIcon(highBrightness);
                 }
             } else if (p == "AmbientBr") {
-                trayUi->actionAmbient->setText(tr("Ambient %1%%").arg((int)(v.toDouble()*100)));
+                trayUi->actionAmbient->setText(tr("Ambient %1\%").arg((int)(v.toDouble()*100)));
             } else if (p == "Sunrise") {
                 sunrise = v.toULongLong();
                 UpdateTray();
